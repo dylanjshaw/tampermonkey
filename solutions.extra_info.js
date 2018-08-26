@@ -1,3 +1,6 @@
+function async_request(url) {return new Promise(request_xhr); function request_xhr(successCallback, failureCallback) {function onReadyStateChanged() {if (xhr.readyState !== XMLHttpRequest.DONE) return; if (xhr.status !== 200) {xhr.onreadystatechange = null; failureCallback(new Error(xhr.status)); return} xhr.onreadystatechange = null; successCallback(xhr.responseText)} var xhr = new XMLHttpRequest; xhr.withCredentials = false; xhr.open("GET", url, true); xhr.onreadystatechange = onReadyStateChanged; xhr.send(null)} }
+function async_exec(data, id) {return new Promise(exec); function exec(resolve, reject) {try {if (!data) {console.log("async_request: could not load: " + id); return;} var script = document.createElement("script"); script.type = "text/javascript"; script.innerHTML = data; script.id = id; document.body.appendChild(script); resolve(true);} catch (e) {reject(e);} } }
+
 window.csm = window.csm || {};
 (function(csm) {
     if (!window.utui) {
@@ -2062,8 +2065,8 @@ window.csm = window.csm || {};
                     var selector = "#manageContainer_headerControls";
                     var node = document.querySelector(selector);
                     var chkboxes = {
-                        lr: '<div class="tab-menu-item chkbox manage"><input class="chkbox_manage" id="loadrules_chkbox" type="checkbox" value="loadrules"><label for="loadrules_chkbox"><i class="icon-book mapping-icon"></i></label></div>',
-                        ext: '<div class="tab-menu-item chkbox manage"><input class="chkbox_manage" id="ext_chkbox" type="checkbox" value="ext"><label for="ext_chkbox"><i class="icon-cog mapping-icon"></i></label></div>'
+                        lr: '<div class="tab-menu-item chkbox manage"><input class="chkbox_manage" id="loadrules_chkbox" type="checkbox" checked="checked" value="loadrules"><label for="loadrules_chkbox"><i class="icon-book mapping-icon"></i></label></div>',
+                        ext: '<div class="tab-menu-item chkbox manage"><input class="chkbox_manage" id="ext_chkbox" type="checkbox" checked="checked" value="ext"><label for="ext_chkbox"><i class="icon-cog mapping-icon"></i></label></div>'
                     };
                     csm.chkbox.tags.lr = csm.parseHTML(chkboxes.lr)[0];
                     csm.chkbox.tags.ext = csm.parseHTML(chkboxes.ext)[0];
@@ -2097,7 +2100,7 @@ window.csm = window.csm || {};
                     var selector = "#customizeContainer_headerControls";
                     var node = document.querySelector(selector);
                     var chkboxes = {
-                        scope: '<div class="tab-menu-item chkbox customizations"><input class="chkbox_customizations" id="customizations_chkbox" type="checkbox" value="customizations"><label for="customizations_chkbox"><i class="icon-book mapping-icon"></i></label></div>'
+                        scope: '<div class="tab-menu-item chkbox customizations"><input class="chkbox_customizations" id="customizations_chkbox" type="checkbox" checked="checked" value="customizations"><label for="customizations_chkbox"><i class="icon-book mapping-icon"></i></label></div>'
                     };
                     csm.chkbox.extensions.scope = csm.parseHTML(chkboxes.scope)[0];
                     if (node) {
@@ -2451,4 +2454,3 @@ $(document.body).one("click", function(e) {
     });
 });
 
-console.log('-----DYLAN VERSION-----------DYLAN VERSION-----------DYLAN VERSION-----------DYLAN VERSION-----------DYLAN VERSION------')
