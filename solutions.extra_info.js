@@ -2279,7 +2279,7 @@ window.csm = window.csm || {};
                 var info_container = new csm.InfoContainer(element.dataset.extensions, element.dataset.loadRules);
                 var new_elem = info_container.buildContent();
                 if (new_elem.hasChildNodes()) {
-                    let anchor = element.children[0].children[1].children[5];
+                    let anchor = element.children[0].children[1].children[6];
                     if (anchor && anchor.hasAttribute("data-uid")) {
                         new_elem.dataset.id = anchor.getAttribute("data-uid");
                     }
