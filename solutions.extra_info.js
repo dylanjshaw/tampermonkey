@@ -2224,7 +2224,7 @@ window.csm = window.csm || {};
             csm.ExtensionsInfoContainer = class ExtensionsInfoContainer {
                 constructor(scope) {
                     if (scope) {
-                        this.scope = ['<div class="mapping-item mapping-ext"><i class="icon-cog mapping-icon"></i><div class="ext" style="margin-left: 3px; width: auto">' + scope + "</div></div>"];
+                        this.scope = ['<div class="mapping-item mapping-ext tmui"><i class="icon-cog mapping-icon"></i><div class="ext" style="margin-left: 3px; width: auto">' + scope + "</div></div>"];
                     }
                 }
                 get content() {
