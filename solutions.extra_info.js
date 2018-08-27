@@ -2065,8 +2065,8 @@ window.csm = window.csm || {};
                     var selector = "#manageContainer_headerControls";
                     var node = document.querySelector(selector);
                     var chkboxes = {
-                        lr: '<div class="tab-menu-item chkbox manage"><input class="chkbox_manage" id="loadrules_chkbox" type="checkbox" checked="checked" value="loadrules"><label for="loadrules_chkbox"><i class="icon-book mapping-icon"></i></label></div>',
-                        ext: '<div class="tab-menu-item chkbox manage"><input class="chkbox_manage" id="ext_chkbox" type="checkbox" checked="checked" value="ext"><label for="ext_chkbox"><i class="icon-cog mapping-icon"></i></label></div>'
+                        lr: '<div title="see load rule UIDs associated with each tag" class="tab-menu-item chkbox manage tmui"><input class="chkbox_manage" id="loadrules_chkbox" type="checkbox" checked="checked" value="loadrules"><label for="loadrules_chkbox"><i class="icon-book mapping-icon"></i></label></div>',
+                        ext: '<div title="see extension UIDs associated with each tag" class="tab-menu-item chkbox manage tmui"><input class="chkbox_manage" id="ext_chkbox" type="checkbox" checked="checked" value="ext"><label for="ext_chkbox"><i class="icon-cog mapping-icon"></i></label></div>'
                     };
                     csm.chkbox.tags.lr = csm.parseHTML(chkboxes.lr)[0];
                     csm.chkbox.tags.ext = csm.parseHTML(chkboxes.ext)[0];
@@ -2100,7 +2100,7 @@ window.csm = window.csm || {};
                     var selector = "#customizeContainer_headerControls";
                     var node = document.querySelector(selector);
                     var chkboxes = {
-                        scope: '<div class="tab-menu-item chkbox customizations"><input class="chkbox_customizations" id="customizations_chkbox" type="checkbox" checked="checked" value="customizations"><label for="customizations_chkbox"><i class="icon-book mapping-icon"></i></label></div>'
+                        scope: '<div title="see scope of each extension; numbers signify tag UIDs" class="tab-menu-item chkbox customizations tmui"><input class="chkbox_customizations" id="customizations_chkbox" type="checkbox" checked="checked" value="customizations"><label for="customizations_chkbox"><i class="icon-book mapping-icon"></i></label></div>'
                     };
                     csm.chkbox.extensions.scope = csm.parseHTML(chkboxes.scope)[0];
                     if (node) {
@@ -2148,10 +2148,10 @@ window.csm = window.csm || {};
                 constructor(ext, lr) {
                     // ecluded all pages loadrule. request @jason-paddock.
                     if (lr && lr !== "all" && document.querySelector("#loadrules_chkbox").checked) {
-                        this.lr = ['<div class="mapping-item mapping-lr"><i class="icon-book mapping-icon"></i><div class="lr" style="margin-left: 3px; width: auto; max-width:280px;">' + lr + "</div></div>"];
+                        this.lr = ['<div class="mapping-item mapping-lr tmui"><i class="icon-book mapping-icon"></i><div class="lr" style="margin-left: 3px; width: auto; max-width:280px;">' + lr + "</div></div>"];
                     }
                     if (ext && document.querySelector("#ext_chkbox").checked) {
-                        this.ext = ['<div class="mapping-item mapping-ext"><i class="icon-cog mapping-icon"></i><div class="ext" style="margin-left: 3px; width: auto; max-width:280px;">' + ext + "</div></div>"];
+                        this.ext = ['<div class="mapping-item mapping-ext tmui"><i class="icon-cog mapping-icon"></i><div class="ext" style="margin-left: 3px; width: auto; max-width:280px;">' + ext + "</div></div>"];
                     }
                 }
                 get content() {
@@ -2184,7 +2184,7 @@ window.csm = window.csm || {};
                         var element;
                         if (type === "div") {
                             element = document.createElement("div");
-                            element.classList.add("container_info");
+                            element.classList.add("container_info", "tmui");
                             for (let key in css[type]) {
                                 if (css[type].hasOwnProperty(key)) {
                                     element.style[key] = css[type][key];
