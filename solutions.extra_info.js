@@ -2399,7 +2399,7 @@ window.csm = window.csm || {};
                     e.stopPropagation();
                     csm.remove_info();
                     window.requestIdleCallback(function() {
-                        csm.chkbox.get_state() ? $(".container_label").addClass("hidden") : $(".container_label").removeClass("hidden");
+                        // csm.chkbox.get_state() ? $(".container_label").addClass("hidden") : $(".container_label").removeClass("hidden");
                         if (csm.has_info()) {
                             csm.remove_info();
                         }
