@@ -1787,10 +1787,8 @@ window.csm = window.csm || {};
                                 }
                                 text = text.split(",").map(function(string) {
                                     var obj = {};
-                                    // obj.id = utui.data.customizations[string.trim()]._id;
-                                    obj.id = string;
-                                    // obj.text = obj.id + ": " + utui.data.customizations[string.trim()].title;
-                                    obj.text = obj.id + ": " + utui.data.customizations[string].title;
+                                    obj.id = utui.data.customizations[string.trimLeft()]._id;
+                                    obj.text = obj.id + ": " + utui.data.customizations[string.trimLeft()].title;
                                     return obj;
                                 });
 
