@@ -238,7 +238,7 @@ var conditionChecker = function() {
     jQuery("#nothingToFix").remove();
 
     // Remove if sendToTopBottom is not enabled
-    if (!features.sendToTopBottom.enabled) {
+    if (!window.features.sendToTopBottom.enabled) {
         // Remove before adding
         jQuery('.label_select_checkbox').off('click');
         // Listen for single extension selection and update the button count
