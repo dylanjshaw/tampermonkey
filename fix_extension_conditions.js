@@ -10,7 +10,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
 })
 
 utui.util.pubsub.subscribe(utui.constants.views.TAB_CLICK, function(e) {
-    if (e.page == "Extensions") {
+    if (e.screen_name.toLowerCase() == "extensions") {
         when(function() {
             return $('#tabs_content .ui-state-active #tabs_customizations').length;
         }, function() {
