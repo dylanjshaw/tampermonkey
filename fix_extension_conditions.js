@@ -1,25 +1,3 @@
-utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
-    if (!$('#conditionCheck').length) {
-        $('<button id="conditionCheck" class="btn btn-info tmui">Condition Check</button>')
-            .css('float', 'left')
-            .css('margin-top', '0px')
-            .css('margin-left', '10px')
-            .click(conditionChecker)
-            .appendTo('#tabs-customizations .config_button_nofloat');
-    }
-})
-
-utui.util.pubsub.subscribe(utui.constants.views.TAB_CLICK, function(e) {
-    if (e.screen_name.toLowerCase() == "extensions") {
-        when(function() {
-            return $('#tabs_content .ui-state-active #tabs_customizations').length;
-        }, function() {
-            fixExtensionConditionsListener()
-        })
-    }
-})
-
-
 function fixExtensionConditionsListener() {
     var save_off_buttonCount = window.buttonCount;
     var checkedCount = jQuery('.label_select_checkbox:checked').length == 0 ? save_off_buttonCount : jQuery('.label_select_checkbox:checked').length;
@@ -745,3 +723,24 @@ var fixConditions = function(ExtensionIdNumbers) {
     backupThenRepair();
 
 }
+
+utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
+    if (!$('#conditionCheck').length) {
+        $('<button id="conditionCheck" class="btn btn-info tmui">Condition Check</button>')
+            .css('float', 'left')
+            .css('margin-top', '0px')
+            .css('margin-left', '10px')
+            .click(conditionChecker)
+            .appendTo('#tabs-customizations .config_button_nofloat');
+    }
+})
+
+utui.util.pubsub.subscribe(utui.constants.views.TAB_CLICK, function(e) {
+    if (e.screen_name.toLowerCase() == "extensions") {
+        when(function() {
+            return $('#tabs_content .ui-state-active #tabs_customizations').length;
+        }, function() {
+            fixExtensionConditionsListener()
+        })
+    }
+})
