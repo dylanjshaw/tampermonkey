@@ -731,13 +731,16 @@ var fixConditions = function(ExtensionIdNumbers) {
 }
 
 utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
+    console.log('PROFILE LOADED: FIX EXTENSION CONDITIONS')
     if (!$('#conditionCheck').length) {
+        console.log('ELEMENT CHECK: FIX EXTENSION CONDITIONS')
         $('<button id="conditionCheck" class="btn btn-info tmui">Condition Check</button>')
             .css('float', 'left')
             .css('margin-top', '0px')
             .css('margin-left', '10px')
             .click(conditionChecker)
             .appendTo('#tabs-customizations .config_button_nofloat');
+            console.log('ELEMENT APPENDED: FIX EXTENSION CONDITIONS')
     }
 })
 
