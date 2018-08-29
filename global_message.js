@@ -17,7 +17,7 @@
 
 utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function(){
 	var my_site_context = $('#tabs-dashboard #my_site_context').children()[0];
-    var global_message_button = $('<li class="tmui"><a href="#" id="getGlobalMessage">Show Global Message</a></li>').click(function() {unsafeWindow.__getGlobalMessageAllow = 'true';getGlobalMessage(true);})
+    var global_message_button = $('<li class="tmui"><a href="#" id="getGlobalMessage">Show Global Message</a></li>').click(function() { __getGlobalMessageAllow = 'true';getGlobalMessage(true);})
     $(global_message_button).appendTo(my_site_context)
 })	
 
