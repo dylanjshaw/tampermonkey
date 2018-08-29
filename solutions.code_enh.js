@@ -144,28 +144,7 @@ window.sol = window.sol || {};
   sol.save_tag = function save_tag(data, type) {var id, title, curr_date; data = data || utui.adminlib.editor.getValue(); if (sol.date_format) {curr_date = (sol.date_format("isoDate").replace(/-/gim, "") + "-" + sol.date_format("shortTime")).replace(/ |:/gim, "");}if (type === "tag") {id = $("#manage_content").find(".ui-accordion-content-active").get(0).parentNode.dataset.id; if (id) {title = utui.data.manage[id].title;}} else if (type === "extension") {id = $("h3.ui-state-active").closest(".customize_container").data().id; if (id) {title = utui.data.customizations[id].title;}}var label = curr_date + "." + utui.profile.lastAccount + "." + utui.profile.lastProfile + ".UID:" + id + "." + title + ".js"; sol.save(data, label);};
   sol.pretty_print = function pretty_print() {if(!$("#pp").length) {var classname = "btn tmui"; var buttonText = "pp"; $('<span id="pp" class="' + classname + '"><i class="icon-wrench"></i> ' + buttonText + "</span>").css("float","left").css("margin-left","10px").click(function(e) {code_editor = sol.get_code_editor(); if(code_editor) {code_editor.setJSBeautifulCode();}}).appendTo("#tabs-customizations .config_button_nofloat");}};
   sol.minify = function minify() {if (!$("#cust_sol_min").length) {var classname = "btn tmui"; var buttonText = "min"; $('<span id="cust_sol_min" class="' + classname + '"><i class="icon-wrench"></i> ' + buttonText + "</span>").css("float", "left").css("margin-left", "10px").click(function(e) {code_editor = sol.get_code_editor(); if (code_editor) {code_editor.setMinifiedCode();}}).appendTo("#tabs-customizations .config_button_nofloat");}};
-  sol.save_extension = function save_extension() {
-    var data, name = "";
-    if (!$("#cust_sol_save").length) {
-      var classname = "btn tmui";
-      var buttonText = "save";
-      $('<span id="cust_sol_save" class="' + classname + '"><i class="icon-wrench"></i> ' + buttonText + "</span>").css("float", "left").css("margin-left", "10px").click(function(e) {
-        code_editor = sol.get_code_editor();
-        if (code_editor) {
-          try {
-            data = code_editor.getValue();
-            name = sol.build_name();
-            if (data && name) {
-              sol.save_data(data, name)
-            }
-          } catch (e) {
-            data = code_editor.getValue();
-            sol.save_data(data, "extension");
-          }
-        }
-      }).appendTo("#tabs-customizations .config_button_nofloat");
-    }
-  };
+  sol.save_extension = function save_extension() {var data, name = "";if (!$("#cust_sol_save").length) {var classname = "btn tmui";var buttonText = "save";$('<span id="cust_sol_save" class="' + classname + '"><i class="icon-wrench"></i> ' + buttonText + "</span>").css("float", "left").css("margin-left", "10px").click(function(e) {code_editor = sol.get_code_editor();if (code_editor) {try {data = code_editor.getValue();name = sol.build_name();if (data && name) {sol.save_data(data, name)}} catch (e) {data = code_editor.getValue();sol.save_data(data, "extension");}}}).appendTo("#tabs-customizations .config_button_nofloat");}};
   sol.load_code_enh = function load_code_enh() {
     this.pretty_print();  this.save_extension();  this.minify();
     this.code_enh_loaded = true;

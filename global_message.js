@@ -1,153 +1,80 @@
+// ==UserScript==
+// @name         Single Tool Test
+// @namespace     TIQ
+// @require       http://code.jquery.com/jquery-2.1.1.min.js
+// @require       https://raw.githubusercontent.com/ccampbell/mousetrap/master/mousetrap.min.js
+// @require       https://raw.github.com/ccampbell/mousetrap/master/plugins/global-bind/mousetrap-global-bind.min.js
+// @require       https://code.jquery.com/ui/1.11.2/jquery-ui.js
+// @require       https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js
+// @require       https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js
+// @run-at        document-end
+// @version       3.0
+// @description   Addons to TealiumIQ
+// @include       *my.tealiumiq.com/tms
+// @updateURL     https://solutions.tealium.net/hosted/tampermonkey/tealiumiq.user.js
+// ==/UserScript==
 
-unsafeWindow.__getGlobalMessageAllow = 'true';
+
+utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function(){
+	var my_site_context = $('#tabs-dashboard #my_site_context').children()[0];
+    var global_message_button = $('<li class="tmui"><a href="#" id="getGlobalMessage">Show Global Message</a></li>').click(function() {unsafeWindow.__getGlobalMessageAllow = 'true';getGlobalMessage(true);})
+    $(global_message_button).appendTo(my_site_context)
+})	
+
+
+__getGlobalMessageAllow = 'true';
 
 function showGlobalMessagePopup(message_obj, showAll) {
-    if (typeof message_obj.account_message === 'undefined') {
-        message_obj.account_message = '';
-    }
-    if (typeof message_obj.profile_message === 'undefined') {
-        message_obj.profile_message = '';
-    }
-    if (typeof showAll === 'undefined') {
-        showAll = false;
-    }
-    if (message_obj.account_message === '' && message_obj.profile_message === '') {
-        // return false;
-    }
     $('#account_message_popup').remove();
-    var html = '<button id="global_popup_update_btn" type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">';
-    html += '<span class="ui-button-text">Update</span>';
-    html += '</button>';
-    var update = $(html);
-    update.css('cursor', 'pointer')
-        .css('float', 'right')
-        .css('margin-right', '10px')
-        .css('display', 'none')
-        .click(function() {
-        setGlobalMessage()
-    });
-    var html = '<button id="global_popup_close_btn" type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">';
-    html += '<span class="ui-button-text">Close</span>';
-    html += '</button>';
-    var close = $(html);
-    close.css('cursor', 'pointer')
-        .css('float', 'right')
-        .css('margin-right', '10px')
-        .css('bottom', '35px')
-        .click(function() {
-        $('#account_message_popup').remove()
-    });
-    var html = '<div id="account_message_popup">';
-    var width = 800;
-    var left_px = Math.round(($(window).width() - width) / 2) + 'px';
-    // html .= '<span class="alert" style="color:red;margin-left:20px;font-size:18px;"></span><br/>';
-    //  html += '<span class="global_help_text" style="margin-left:20px; font-size:20px;">Global Message for account ' + $('#profile_legend_account').text() + '</span>';
-    html += '<span id="close_upper_right"> X </span>';
-    html += '<br><br><span id="important_popup_label">This is the Account Note and, cannot be edited from TiQ <a href="https://deploytealium.com/message/" target="_blank" style="text-decoration:none;">*</a></span>';
-    html += '<textarea disabled id="important_popup_text" rows="10" cols="80" /><br>';
-    html += '<span id="important_popup_last"></span>';
-    html += '<br><br>';
-    html += '<span id="global_popup_label">These shared Profile Notes can be edited by all Team Members, start typing to edit.</span>';
-    html += '<textarea id="global_popup_text" rows="13" cols="80" />';
-    html += '<span id="global_popup_last"></span>';
-    html += '<br><br>';
-    html += '</div>';
-    global_help = $(html);
-    global_help.css('position', 'fixed')
-        .css('z-index', '10000')
-        .css('background-color', 'white')
-        .css('border-style', 'solid')
-        .css('border-width', '3px')
-        .css('left', left_px)
-        .css('top', '100px')
-        .css('border-color', '#057ABD')
-        .css('border-radius', '10px')
-        .width(width)
-        .height(560)
-        .append(close)
-        .append(update)
-        .appendTo(document.body);
-    $('#global_popup_label')
-        .css('margin-left', '4%')
-        .css('font-size', 'small')
-        .css('color', '#888888');
-    $('#important_popup_label')
-        .css('margin-left', '4%')
-        .css('font-size', 'small')
-        .css('color', '#888888')
-        .css('margin-top', '2a%');
-    $('#global_popup_text')
-        .css('width', '90%')
-        .css('margin-left', '4%')
-        .css('font-size', 'medium')
-        .css('margin-bottom', '0px')
-        .val(message_obj.profile_message);
-    $('#important_popup_text')
-        .css('width', '90%')
-        .css('margin-left', '4%')
-        .css('font-size', 'medium')
-        .css('color', 'mediumvioletred')
-        .css('font-weight', 'bold')
-        .css('margin-bottom', '0px')
-        .val(message_obj.account_message);
-    $('#close_upper_right')
-        .css('cursor', 'pointer')
-        .css('position', 'absolute')
-        .css('top', '0')
-        .css('right', '0')
-        .css('background-color', '#057ABD')
-        .css('color', 'white')
-        .css('font-size', 'medium')
-        .css('border-bottom-left-radius', '4px')
-        .css('padding', '5px')
-        .click(function() {
-        $('#account_message_popup').remove()
-    });
-    $('#important_popup_last')
-        .css('margin-left', '4%')
-        .css('font-size', 'x-small')
-        .css('color', '#888888')
-        .css('border-top', '0px')
-        .css('border', 'none');
-    if (message_obj.account_date_modified == '') {
-        $('#important_popup_last').text('');
-    } else {
-        $('#important_popup_last').text('Account Message Last Updated on ' + message_obj.account_date_modified + ' by ' + message_obj.account_last_email);
-    }
-    $('#global_popup_last')
-        .css('margin-left', '4%')
-        .css('font-size', 'x-small')
-        .css('color', '#888888')
-        .css('border-top', '0px')
-        .css('border', 'none');
-    if (message_obj.profile_date_modified == '') {
-        $('#global_popup_last').text('');
-    } else {
-        $('#global_popup_last').text('Profile Message Last Updated on ' + message_obj.profile_date_modified + ' by ' + message_obj.profile_last_email);
-    }
-    $('#global_popup_text').keyup(function(e) {
-        $('#global_popup_update_btn').show();
-    });
+    if (typeof message_obj.account_message === 'undefined') {message_obj.account_message = '';}
+    if (typeof message_obj.profile_message === 'undefined') {message_obj.profile_message = '';}
+    if (typeof showAll === 'undefined') {showAll = false;}
+
+	var button_div = document.createElement('div');
+	function createButton(type){
+	    var click_handler = type === "Update" ? setGlobalMessage : function(){$('#account_message_popup').remove()}
+		var btn = $.parseHTML('<button type="button" id="global_popup_'+type.toLowerCase()+'_btn"class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text"></span></button>')
+	    $(btn).find('span').text(type);
+	    $(btn).on('click', click_handler);
+	    return btn; 
+	}
+	var close = createButton('Close');
+	var update = createButton('Update');
+	$(close).css({'cursor':'pointer', 'float':'right','margin-right':'10px','bottom':'35px'}).appendTo(button_div)
+	$(update).css({'cursor':'pointer', 'float':'right','margin-right':'10px', 'bottom':'35px','display':'none'}).appendTo(button_div)
+
+
+    var global_help = $.parseHTML('<div id="account_message_popup"><span id="close_upper_right"> X </span><br><br><span id="important_popup_label">This is the Account Note and, cannot be edited from TiQ <a href="https://deploytealium.com/message/" target="_blank" style="text-decoration:none">*</a></span><textarea disabled id="important_popup_text" rows="10" cols="80" /><br><span id="important_popup_last"></span><br><br><span id="global_popup_label">These shared Profile Notes can be edited by all Team Members, start typing to edit.</span><textarea id="global_popup_text" rows="13" cols="80" /><span id="global_popup_last"></span><br><br></div>');
+	$(global_help).css({'margin-left':'20%','width':'65%','height':'560px','position':'fixed','z-index':'10000','background-color':'white','border-style':'solid','border-width':'3px','top':'100px','border-color':'#057ABD','border-radius':'10px'})    
+	$(global_help).append(button_div)
+	$(global_help).appendTo(document.body);
+
+    $('#global_popup_label').css({'margin-left': '4%','font-size': 'small','color': '#888888'});
+	$('#important_popup_label').css({'margin-left': '4%','font-size': 'small','color': '#888888','margin-top': '2a%'});
+	$('#global_popup_text').css({'width': '90%','margin-left': '4%','font-size': 'medium','margin-bottom': '0px'}).val(message_obj.profile_message);
+	$('#important_popup_text').css({'width': '90%','margin-left': '4%','font-size': 'medium','color': 'mediumvioletred','font-weight': 'bold','margin-bottom': '0px'}).val(message_obj.account_message);
+	$('#close_upper_right').css({'cursor': 'pointer','position': 'absolute','top': '0','right': '0','background-color': '#057ABD','color': 'white','font-size': 'medium','border-bottom-left-radius': '4px','padding': '5px'}).click(function() {$('#account_message_popup').remove()});
+	
+	var important_txt = (message_obj.account_date_modified == '') ? '' : 'Account Message Last Updated on ' + message_obj.account_date_modified + ' by ' + message_obj.account_last_email; 
+	$('#important_popup_last').text(important_txt);
+	$('#important_popup_last').css({'margin-left': '4%','font-size': 'x-small','color': '#888888','border-top': '0px','border': 'none'});
+
+	var global_txt = (message_obj.profile_date_modified == '') ? '' : 'Profile Message Last Updated on ' + message_obj.profile_date_modified + ' by ' + message_obj.profile_last_email
+	$('#global_popup_last').text(global_txt);
+	$('#global_popup_last').css({'margin-left': '4%','font-size': 'x-small','color':'#888888','border-top': '0px','border':'none'});
+    
+    $('#global_popup_text').keyup(function(e) {$('#global_popup_update_btn').show();});
     $('#global_popup_close_btn').focus();
 }
 
 function getGlobalMessage(showAll) {
-    if (unsafeWindow.__getGlobalMessageAllow === 'false') {
-        return false;
-    }
-    if (typeof showAll === 'undefined') {
-        showAll = false;
-    }
-    var account_name = unsafeWindow.utui.login.account;
-    var profile_name = unsafeWindow.utui.login.profile;
-    var user_email = unsafeWindow.utui.login.email;
-    var publishHistory = Object.keys(unsafeWindow.utui.data.publish_history).sort().reverse();
-    var emails = [];
+    if (__getGlobalMessageAllow === 'false') {return false;}
+    if (typeof showAll === 'undefined') {showAll = false;}
+    var publishHistory = Object.keys(utui.data.publish_history).sort().reverse();
+    var account_name = utui.login.account, profile_name = utui.login.profile, user_email = utui.login.email, emails = [];
     for (var i = 0; i < publishHistory.length; i++) {
-        var email = unsafeWindow.utui.data.publish_history[publishHistory[i]][unsafeWindow.utui.data.publish_history[publishHistory[i]].publishState['saved']].operator;
-        if (emails.indexOf(email) === -1) {
-            emails.push(email);
-        }
+        var email = utui.data.publish_history[publishHistory[i]][utui.data.publish_history[publishHistory[i]].publishState['saved']].operator;
+        if (emails.indexOf(email) === -1) {emails.push(email);}
     }
     jQuery.ajax({
         async: true,
@@ -162,14 +89,6 @@ function getGlobalMessage(showAll) {
             "emails": JSON.stringify(emails)
         }),
         success: function(response) {
-            // var globalMessageAccountHide = JSON.parse(localStorage.getItem('global_history')) || {};
-            // if(typeof globalMessageAccountHide[account_name] === 'undefined'){
-            //   globalMessageAccountHide[account_name] = '';
-            // }
-            // if(globalMessageAccountHide[account_name] !== response.date_modified){
-            //   globalMessageAccountHide[account_name] = '';
-            // }
-            // localStorage.setItem("global_history", JSON.stringify(globalMessageAccountHide));
             if (response.success) {
                 var account_message = '';
                 var profile_message = '';
@@ -177,41 +96,32 @@ function getGlobalMessage(showAll) {
                     account_message = response.account_message;
                 }
                 if (response.profile_message && response.profile_message !== '') {
-                    // if(globalMessageAccountHide[account_name] === ''){
                     profile_message = response.profile_message;
-                    // }
-                    // unsafeWindow.account_message_date_modified = response.date_modified;
                 }
                 if (account_message !== '' || profile_message !== '' || showAll) {
                     showGlobalMessagePopup(response, showAll);
                     if (!showAll) {
                         $('#globalMessageButton').css('cursor', 'pointer').css('color', '#C71585').addClass('tmui-color').removeClass('hidden');
-                        unsafeWindow.__getGlobalMessageAllow = 'true';
+                        __getGlobalMessageAllow = 'true';
                     }
                 } else {
                     $('#globalMessageButton').css('cursor', 'default').css('color', 'rgb(16, 136, 200)').removeClass('tmui-color').addClass('hidden');
-                    unsafeWindow.__getGlobalMessageAllow = 'false';
+                    __getGlobalMessageAllow = 'false';
                 }
             } else {
                 $('#globalMessageButton').css('cursor', 'default').css('color', 'rgb(16, 136, 200)').removeClass('tmui-color').addClass('hidden');
-                unsafeWindow.__getGlobalMessageAllow = 'false';
+                __getGlobalMessageAllow = 'false';
             }
         }
     });
 }
-// function hideGlobalMessage(){
-//   var account_name = $('#profile_legend_account').text();
-//   var globalMessageAccountHide = JSON.parse(localStorage.getItem('global_history')) || {};
-//   globalMessageAccountHide[account_name] = unsafeWindow.account_message_date_modified;
-//   localStorage.setItem("global_history", JSON.stringify(globalMessageAccountHide));
-//   $('#account_message_popup').remove();
-// }
+
 function setGlobalMessage() {
     $('#global_popup_update_btn').hide();
     var profile_message = $('#global_popup_text').val();
-    var account_name = unsafeWindow.utui.login.account;
-    var profile_name = unsafeWindow.utui.login.profile;
-    var user_email = unsafeWindow.utui.login.email;
+    var account_name = utui.login.account;
+    var profile_name = utui.login.profile;
+    var user_email = utui.login.email;
     jQuery.ajax({
         async: true,
         url: "https://deploytealium.com/message/globalMessage.php",
@@ -236,18 +146,10 @@ function setGlobalMessage() {
     });
 }
 
-$('<span id="globalMessageButton" title="Show Global Message" class="tmui">{ ! }</span>')
-    .insertBefore('#showHideTMButtons')
-    .css('cursor', 'pointer')
-    .css('margin-left', '15px')
-    .css('position', 'fixed')
-    .css('color', 'rgb(4, 127, 195)')
-    .css('font-weight', 'bold')
-    .css('font-size', 'larger')
-    .css('width', '25px')
-    .css('z-index', '500')
-    .css('top', '3px')
-    .click(function() {
-    unsafeWindow.__getGlobalMessageAllow = 'true';
-    getGlobalMessage()
-});
+
+
+
+
+
+
+

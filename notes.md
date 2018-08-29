@@ -9,5 +9,6 @@ NOW:
 
 LATER:
 -extract nice utility methods from Mau$ tools
+-migrate repo to teal repo
 -change rawgit URLs to prod URLs
 -document all changes
