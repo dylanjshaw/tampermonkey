@@ -27,7 +27,7 @@ utui.util.buildRecentHistory = function() {
             //This is the default profile, change the icon
             favIcon = 'icon-user';
         }
-        html += '<li><div class="menulistitem"><i class="' + favIcon + ' quickSwitchFavIcon"></i><a class="menulistfont wordwrap quickSwitch" href="#" data-account="' + recentProfiles[i].account + '" data-profile="' + recentProfiles[i].profile + '">' + i + ': ' + truncate(recentProfiles[i].account + '/' + recentProfiles[i].profile, 25) + '</a></div></li>';
+        html += '<li><div class="menulistitem"><i class="' + favIcon + ' quickSwitchFavIcon"></i><a class="menulistfont wordwrap quickSwitch" href="#" data-account="' + recentProfiles[i].account + '" data-profile="' + recentProfiles[i].profile + '">' + i + ': ' + utui.util.truncate(recentProfiles[i].account + '/' + recentProfiles[i].profile, 25) + '</a></div></li>';
     }
     html += '</ul><div class="menudivider"></div>';
     return html;
