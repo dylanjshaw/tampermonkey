@@ -22,3 +22,11 @@ utui.util.copyToClipboard = (element) => {
     document.execCommand("copy");
     $temp.remove();
 }
+
+
+utui.util.truncate = (str, len) => {
+    if (str.length > len) {
+        str = str.substr(0, len - 3) + '...';
+    }
+    return str;
+}
