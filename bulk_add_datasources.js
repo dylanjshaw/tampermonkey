@@ -1,3 +1,11 @@
+var when = function(test, run, sleep) {
+    var args = Array.prototype.slice.call(arguments, 2);
+    keepTrying(test, function() {
+        run.apply(null, args);
+    },
+    sleep);
+}
+
 var check_for_errors = function() {
     when(
 
