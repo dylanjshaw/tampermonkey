@@ -77,7 +77,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
     function createEcommExtensionButton() {
         if (!$('#customize_addEcommBtn').length) {
             if (!ecommExtensionExists()) {
-                $('<span id="customize_addEcommBtn" class="btn tmui"><i class="icon-wrench"></i> Add E-Commerce Extension</span>')
+                $('<span id="customize_addEcommBtn" class="btn tmui">Add E-Comm Extension</span>')
                     .css('float', 'left')
                     .css('margin-left', '10px')
                     .click(addEcommExtension)
