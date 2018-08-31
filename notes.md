@@ -9,6 +9,9 @@ NOW:
 
 LATER:
 -extract nice utility methods from Mau$ tools
--migrate repo to teal repo
+-load utility methods sync at the top of the file
+-import libraries sync at the top of the file
+-modularize and export/import tools
 -change rawgit URLs to prod URLs
 -document all changes
+-give tab buttons uniform css
