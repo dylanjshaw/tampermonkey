@@ -86,4 +86,6 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
         }
     }
 
+    createEcommExtensionButton();
+
 })
