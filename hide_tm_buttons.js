@@ -15,7 +15,8 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
         .click(function() {
             hideTMButtons = hideTMButtons ? 0 : 1;
             if (hideTMButtons == 1) {
-                $('#tmuiStyleSheet').html('.tmui{display:none !important;}');
+                // $('#tmuiStyleSheet').html('.tmui{display:none !important;}');
+                $('.tmui').hide();
                 $('.tmui-color').css('color', '#FFFFFF');
                 $('#globalMessageButton').css('cursor', 'default').css('color', 'rgb(4, 127, 195)').addClass('tmui-color');
                 __getGlobalMessageAllow = 'false';
@@ -24,7 +25,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                 //     restoreAlias();
                 // }
             } else {
-                $('#tmuiStyleSheet').html('.tmui{display:block;}');
+                $('.tmui').show();
                 $('.tmui-color').css('color', '#C71585');
                 $('#globalMessageButton').css('cursor', 'pointer').css('color', '#C71585').addClass('tmui-color');
                 __getGlobalMessageAllow = 'true';
