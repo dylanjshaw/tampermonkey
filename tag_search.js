@@ -1,4 +1,6 @@
 utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
+    setupTagSearch()
+})
 
     localStorage.setItem("tagSearchQuery", ""); //remove storage on login
 
@@ -68,7 +70,3 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
         }
         searchTags($('#tag_search').val());
     }
-
-    setupTagSearch()
-
-})
