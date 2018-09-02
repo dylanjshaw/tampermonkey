@@ -69,4 +69,6 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
         searchTags($('#tag_search').val());
     }
 
+    setupTagSearch()
+
 })
