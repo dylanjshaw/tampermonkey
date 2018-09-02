@@ -47,7 +47,6 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
     }
 
     function setupTagSearch() {
-        debugger
         var searchTerm = localStorage.getItem("tagSearchQuery") || '';
         if (!$('input#tag-search').length) {
             $('<div class="inputSearchContainer tmui"><input class="search" id="tag-search" value="' + searchTerm + '" type="text"></div>')
