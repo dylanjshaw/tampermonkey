@@ -1,6 +1,4 @@
 utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
-    setupTagSearch()
-})
 
     localStorage.setItem("tagSearchQuery", ""); //remove storage on login
 
@@ -49,24 +47,28 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
     }
 
     function setupTagSearch() {
+        debugger
         var searchTerm = localStorage.getItem("tagSearchQuery") || '';
-        if (!$('#tag_search').length) {
-            $('<div class="inputSearchContainer tmui"><input class="search" id="tag_search" value="' + searchTerm + '" type="text"></div>')
+        if (!$('input#tag-search').length) {
+            $('<div class="inputSearchContainer tmui"><input class="search" id="tag-search" value="' + searchTerm + '" type="text"></div>')
                 .css('float', 'right')
                 .css('z-index', '1')
                 .appendTo('#tabs-manage .config_button_nofloat');
             var keysPressed = 0;
-            $('#tag_search').bind('keydown', function() {
+            $('input#tag-search').bind('keydown', function() {
                 // console.log('keydown');
                 var grabKeyCount = ++keysPressed;
                 setTimeout(function() {
                     if (keysPressed == grabKeyCount) {
-                        searchTags($('#tag_search').val());
-                    }
+                        searchTags($('input#tag-search').val());
+                    }   
                 }, 250);
             });
         } else {
-            $('#tag_search').val(searchTerm);
+            $('input#tag-search').val(searchTerm);
         }
-        searchTags($('#tag_search').val());
+        searchTags($('input#tag-search').val());
     }
+
+    setupTagSearch()
+})
