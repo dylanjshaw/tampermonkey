@@ -45,6 +45,7 @@ function attachThing() {
 function easySwitch(e) {
     var newIndex, switched = false;
     var tabArr = ["dashboard", "define", "loadrules", "manage", "customizations", "publish"];
+    var screeNameArr = ['dashboard','data sources','loadrules','tags','extensions','versions'];
     if (e.altKey) {
         var currentIndex = $('#tabs_content > li').index($(document).find(".ui-tabs-selected")[0]);
         switch (e.which) {
@@ -66,6 +67,7 @@ function easySwitch(e) {
         }
         if (switched) {
             utui.profile.checkTab(tabArr[newIndex]);
+            utui.util.pubsub.publish(utui.constants.views.TAB_CLICK, {'screen_name': screeNameArr[newIndex]})
         }
     }
 }
