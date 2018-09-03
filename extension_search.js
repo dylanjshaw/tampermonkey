@@ -49,8 +49,10 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                     }
                 }, 250);
             });
-            searchExtensions($('input#extension-search').val());
+        } else {
+            $('input#extension-search').val(searchTerm);
         }
+        searchExtensions($('input#extension-search').val());
     }
 
     setupExtensionSearch()
