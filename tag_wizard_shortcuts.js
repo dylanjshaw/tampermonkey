@@ -28,15 +28,18 @@ var when = function(test, run, sleep) {
 
 utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
 /************** Add common utility functions End ***************************/
-    function autoExpandAdvancedSettings(){
+    var tws = {};
+    tws.autoExpandAdvancedSettings = function(){
+            if(!$('#tagConfigAdvSettings .dialog_section_body:visible').length){
                 $('div.dialogSectionHeader:contains("Advanced Settings")').unbind('click')
                 $('#tagConfigAdvSettings .dialog_section_body').slideToggle({
                     duration: 'fast',
                     queue: false
                 });
                 $('#tagConfigAdvSettings .dialogSectionHeader i').toggleClass('icon-caret-right').toggleClass('icon-caret-down');
+            }
     }
-    function setupDataMappingShortcuts() {
+    tws.setupDataMappingShortcuts = function() {
                 //Clear the mapping toolbox text so that we know once it has been updated.
                 $('#dialog-managetoolbox-content').text('');
 
@@ -81,14 +84,14 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                 when(function(){
                     return ($('#wizard_variables_wrapper:visible'))
                 }, function(){
-                    insertMappingsBulkRow()
+                    tws.insertMappingsBulkRow()
                 })
 
                 //CSS Fix
                 $('.variable_map_container').css('max-height', '330px');
                 $('.noItemsMapVariable').css('top', '75px');
             }
-    function markTagAsNotSaved(tag_id) {
+    tws.markTagAsNotSaved = function(tag_id) {
         var containerId = $('.manage_container[data-id="' + tag_id + '"]').attr('id');
         var tagObj = utui.manage.containerMap[containerId];
         utui.profile.setActionPerformed({
@@ -115,24 +118,24 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
             }
         });
     }
-    function insertMappingsBulkRow() {
+    tws.insertMappingsBulkRow = function() {
                 if (!$('#mappingsBulkRow').length) {
                     $('<tr id="mappingsBulkRow" class="tmui"><td></td></tr>')
                         .appendTo('#wizard_variables_wrapper tbody');
                     $('<span id="mappingsImport" class="btn btn-small actionAddMapping i-color-add"><i class="icon-arrow-down"></i> Import from CSV</span>')
                         .appendTo('#mappingsBulkRow td')
                         .click(function() {
-                            showImportExportPopup('', 'div[aria-labelledby="ui-dialog-title-manage_dialog_wizard"]');
+                            tws.showImportExportPopup('', 'div[aria-labelledby="ui-dialog-title-manage_dialog_wizard"]');
                         });
                     if ($('.noItemsMapVariable[style*="display: none;"]').length) {
                         $('<span id="mappingsExport" class="btn btn-small actionAddMapping i-color-add"><i class="icon-arrow-up"></i> Export to CSV</span>')
                             .css('margin-left', '10px')
                             .appendTo('#mappingsBulkRow td')
-                            .click(exportMappings);
+                            .click(tws.exportMappings);
                     }
                 }
             }
-    function showImportExportPopup(content, prepend) {
+    tws.showImportExportPopup = function(content, prepend) {
             $('#popup').remove();
             var close = $('<button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text">Close</span></button>').click(function() {
                 $('#popup').remove();
@@ -153,7 +156,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
             if (!content) {
                 //Create import button
                 $('<button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text">Import</span></button>')
-                    .click(importMappings)
+                    .click(tws.importMappings)
                     .css('cursor', 'pointer')
                     .css('float', 'left')
                     .css('margin-left', '10px')
@@ -173,7 +176,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
             }
             $('#popupText')[0].setSelectionRange(0, $('#popupText').val().length);
         }
-    function getDataLayerNames() {
+    tws.getDataLayerNames = function() {
                 var data = utui.data.define;
                 var obj = {};
                 Object.keys(data).forEach(function(key) {
@@ -183,7 +186,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                 });
                 return obj;
             }
-    function exportMappings() {
+    tws.exportMappings = function() {
                 var csv = '';
                 var data = utui.data.manage[$('#manage_editmapping_id').val()].map;
                 Object.keys(data).forEach(function(key) {
@@ -193,12 +196,12 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                 if (!csv) {
                     csv = 'NOTHING CURRENTLY MAPPED!';
                 }
-                showImportExportPopup(csv, 'div[aria-labelledby="ui-dialog-title-manage_dialog_wizard"]');
+                tws.showImportExportPopup(csv, 'div[aria-labelledby="ui-dialog-title-manage_dialog_wizard"]');
             }
-    function importMappings() {
+    tws.importMappings = function() {
                 var contentLines = $('#popupText').val().split('\n');
                 var inputData = [];
-                var dataLayer = getDataLayerNames();
+                var dataLayer = tws.getDataLayerNames();
                 for (var i = 0; i < contentLines.length; i++) {
                     if (contentLines[i].length) {
                         var obj = {};
@@ -238,8 +241,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                     }, 250);
                 })($('#manage_editmapping_id').val());
             }
-    function createEditTemplatesBtn() {return '<div class="wizard_config"><div class="wizard_label"><a style="padding-left:0px;" href="#" class="edit-templates-btn actionAdvConfigEdit btn btn-small i-color-edit tmui" original-title="This will launch a window that will allow you to view and/or manage the code behind your tag."><i class="icon-edit"></i> Edit Templates</a></div></div><br/><br/>';}
-    function addEditTemplatesToManageScreen(tag_id) {
+    tws.addEditTemplatesToManageScreen = function(tag_id) {
         $('<a href="#" data-container-id="'+ tag_id +'" class=" manageScreenEditTemplatesButton actionAdvConfigEdit btn btn-small i-color-edit tmui" original-title="This will launch a window that will allow you to view and/or manage the code behind your tag."><i class="icon-edit"></i> Edit Templates</a>')
             .insertBefore($('.actionEditSettings:visible'))
             .css('margin-right', '5px')
@@ -248,49 +250,70 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
             utui.adminlib.getTemplateList(tag_id);
         });
     }
-    function addTagTemplateChangeLogToManageScreen(tag_id){
+    tws.addTagTemplateChangeLogToManageScreen = function(tag_id){
         $('<div class="tmui tagTemplateChangeLogManage" style="position:relative;left:20px;width:155px;"><a href="#" class="btn btn-small tmui" style="font-size:12px;">Tag Template Change Log</a></div>')
             .appendTo('.contextBox:visible')
             .click(function() {
             common.utils.openWindow('https://solutions.tealium.net/tools/tagchangelog?uid=' + utui.data.manage[tag_id].tag_id, '_blank');
         });
     }
-    function insideDialogWizard(){return $('div[aria-labelledby="ui-dialog-title-manage_dialog_wizard"]').is(':visible')}
-    function addTemplateChangeLogModalToDialog(tag_id){   
-        $('<div class="tmui tagTemplateChangeLogModal" style="position:relative;left:20px;top:10px;width:155px;"><a href="#" class="btn btn-small tmui" style="font-size:12px;">Tag Template Change Log</a></div>')
-            .appendTo('.wizard_nav:visible')
-            .click(function() {
-            common.utils.openWindow('https://solutions.tealium.net/tools/tagchangelog?uid=' + utui.data.manage[tag_id].tag_id, '_blank');
-        });
+    tws.insideDialogWizard = function(){return $('div[aria-labelledby="ui-dialog-title-manage_dialog_wizard"]').is(':visible')}
+    tws.addTemplateChangeLogModalToDialog = function(tag_id){
+        if (!$('.wizard_nav').find('.tagTemplateChangeLogModal').length) {
+            $('<div class="tmui tagTemplateChangeLogModal" style="position:relative;left:20px;top:10px;width:155px;"><a href="#" class="btn btn-small tmui" style="font-size:12px;">Tag Template Change Log</a></div>')
+                .appendTo('.wizard_nav:visible')
+                .click(function() {
+                common.utils.openWindow('https://solutions.tealium.net/tools/tagchangelog?uid=' + utui.data.manage[tag_id].tag_id, '_blank');
+            });
+        }   
     }
+
+    tws.dialogTabClickHandler = function(tag_id){
+        when(function(){
+            return $('#wizard_config_wrapper:visible').length
+        }, function(){
+            tws.insertEditTemplatesBtns(tag_id)
+            tws.addTemplateChangeLogModalToDialog(tag_id)
+            tws.autoExpandAdvancedSettings()
+        })
+    }
+    tws.insertEditTemplatesBtns = function(tag_id){
+        if(!$('.edit-templates-btn').length){
+            var btn1 = '<div id="btn1" class="wizard_config"><div class="wizard_label"><a style="padding-left:0px;" href="#" class="edit-templates-btn actionAdvConfigEdit btn btn-small i-color-edit tmui" original-title="This will launch a window that will allow you to view and/or manage the code behind your tag."><i class="icon-edit"></i> Edit Templates</a></div></div><br/><br/>';
+            var btn2 = '<div id="btn2" class="wizard_config"><div class="wizard_label"><a style="padding-left:0px;" href="#" class="edit-templates-btn actionAdvConfigEdit btn btn-small i-color-edit tmui" original-title="This will launch a window that will allow you to view and/or manage the code behind your tag."><i class="icon-edit"></i> Edit Templates</a></div></div><br/><br/>';
+            $(btn1).click(function() {utui.adminlib.getTemplateList(tag_id);}).insertBefore('.dialogSectionHeader:contains(Properties)');
+            $(btn2).click(function() {utui.adminlib.getTemplateList(tag_id);}).insertAfter('#tagConfigBasicSettings');
+        }
+    }
+
 /************** Shortcuts and Optimizations for Tag Wizard End ***************************/
 
     // mark tag as not saved on profile template save
-    utui.util.pubsub.subscribe('updated_profile_template', (e) => {
+    utui.util.pubsub.subscribe('updated_profile_template', function(e){
         var template_ref = $('#admin_template_select').val();
         var uid = template_ref.split('.')[1];
-        markTagAsNotSaved(uid)
+        tws.markTagAsNotSaved(uid)
     })
 
 
     // mark tag as not saved on version template save
-    utui.util.pubsub.subscribe('updated_version_template', (e) => {
+    utui.util.pubsub.subscribe('updated_version_template', function(e){
         var template_ref = $('#admin_template_select').val();
         var uid = template_ref.split('.')[1];
-        markTagAsNotSaved(uid)
+        tws.markTagAsNotSaved(uid)
     })
     
 
     // auto-expand advanced settings and set up mapping stuff on new tag
     utui.util.pubsub.subscribe(utui.constants.tags.ADDED, function(e){
         when(function() {
-            return insideDialogWizard();
+            return tws.insideDialogWizard();
         }, function() {
             //Update text box length for pixel URL's
             $('div.wizard_item input').not('.wizard_title').css('width', '495px');
-            autoExpandAdvancedSettings();
-            setupDataMappingShortcuts();
-            addTemplateChangeLogModalToDialog(e.data.id)
+            tws.autoExpandAdvancedSettings();
+            tws.setupDataMappingShortcuts();
+            tws.addTemplateChangeLogModalToDialog(e.data.id)
         });
     })
 
@@ -303,36 +326,36 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
 
                 //Add edit templates button on manage screen
                 if (!$(this).find('.manageScreenEditTemplatesButton').length) {
-                    addEditTemplatesToManageScreen(tag_id)
+                    tws.addEditTemplatesToManageScreen(tag_id)
                 }
 
                 //Add tag template change log link on mamage screen
                 if (!$(this).find('.tagTemplateChangeLogManage').length) {
-                    addTagTemplateChangeLogToManageScreen(tag_id)
+                    tws.addTagTemplateChangeLogToManageScreen(tag_id)
                 }
+
+            // DIALOG WIZARD
             
             var edit_btns = $('#' + e.container).find('span.actionEditSettings, span.actionEditRules, span.actionMapping');
-            $(edit_btns).on('click', function(e) {
 
-                 // DIALOG WIZARD
+            $('#' + e.container).on('click', edit_btns, function(e) {
 
-                    autoExpandAdvancedSettings();
-                    setupDataMappingShortcuts();
+                var config_tab = $('.wizard_tabBody.variables #wizard_config_tab');
+                $(config_tab).off('click', tws.dialogTabClickHandler(tag_id)).on('click', tws.dialogTabClickHandler(tag_id))
 
-                    //Add tag template change log in tips section
-                    if (!$('.wizard_nav').find('.tagTemplateChangeLogModal').length) {
-                        addTemplateChangeLogModalToDialog(tag_id)
-                    }
+                // DIALOG WIZARD
+                tws.autoExpandAdvancedSettings();
+                tws.setupDataMappingShortcuts();
 
-                    //Update text box length for pixel URL's
-                    $('div.wizard_item input').not('.wizard_title').css('width', '495px');
+                //Add tag template change log in tips section
+                tws.addTemplateChangeLogModalToDialog(tag_id)
 
-                    //Insert Edit Templates Buttons at the top and middle of dialog wizard
-                    $(createEditTemplatesBtn()).insertBefore('.dialogSectionHeader:contains(Properties)');
-                    $(createEditTemplatesBtn()).insertAfter('#tagConfigBasicSettings');
-                    //Add click handler to open tag template
-                    $('.edit-templates-btn').on('click', function() {utui.adminlib.getTemplateList(tag_id);});
-            });
-    })
+                //Update text box length for pixel URL's
+                $('div.wizard_item input').not('.wizard_title').css('width', '495px');
 
+                //Insert Edit Templates Buttons at the top and middle of dialog wizard
+                tws.insertEditTemplatesBtns(tag_id)
+            })
+
+    });
 })
