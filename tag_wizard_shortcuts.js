@@ -1,3 +1,19 @@
+    // ==UserScript==
+// @name         Single Tool Test
+// @namespace     TIQ
+// @require       http://code.jquery.com/jquery-2.1.1.min.js
+// @require       https://raw.githubusercontent.com/ccampbell/mousetrap/master/mousetrap.min.js
+// @require       https://raw.github.com/ccampbell/mousetrap/master/plugins/global-bind/mousetrap-global-bind.min.js
+// @require       https://code.jquery.com/ui/1.11.2/jquery-ui.js
+// @require       https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js
+// @run-at        document-end
+// @version       3.0
+// @description   Addons to TealiumIQ
+// @include       *my.tealiumiq.com/tms
+// @updateURL     https://solutions.tealium.net/hosted/tampermonkey/tealiumiq.user.js
+// ==/UserScript==
+
+
 /************** Add common utility functions Start ***************************/
 var keepTrying = function(func, callback, sleep) {
     if (typeof(sleep) == 'undefined') {
@@ -268,12 +284,14 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
         }   
     }
 
-    tws.dialogTabClickHandler = function(tag_id){
+    tws.dialogTabClickHandler = function(){
         when(function(){
             return $('#wizard_config_wrapper:visible').length
         }, function(){
-            tws.insertEditTemplatesBtns(tag_id)
-            tws.addTemplateChangeLogModalToDialog(tag_id)
+            var div_id = $('#manage_dialog_wizard [name^="manage_content_"]:first').attr('id').match(/(manage_content_\d+)/)[1];
+            var tag_uid = $('#' + div_id).data('id');
+            tws.insertEditTemplatesBtns(tag_uid)
+            tws.addTemplateChangeLogModalToDialog(tag_uid)
             tws.autoExpandAdvancedSettings()
         })
     }
@@ -338,10 +356,10 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
             
             var edit_btns = $('#' + e.container).find('span.actionEditSettings, span.actionEditRules, span.actionMapping');
 
-            $('#' + e.container).on('click', edit_btns, function(e) {
+            // $('#' + e.container).on('click', edit_btns, function(e) {
+            $(edit_btns).on('click', edit_btns, function(e) {
 
-                var config_tab = $('.wizard_tabBody.variables #wizard_config_tab');
-                $(config_tab).off('mousedown', tws.dialogTabClickHandler(tag_id)).on('mousedown', tws.dialogTabClickHandler(tag_id))
+                    $('.wizard_tabBody.variables #wizard_config_tab').on('click', tws.dialogTabClickHandler())
 
                 // DIALOG WIZARD
                 tws.autoExpandAdvancedSettings();
