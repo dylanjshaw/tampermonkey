@@ -341,7 +341,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
             $('#' + e.container).on('click', edit_btns, function(e) {
 
                 var config_tab = $('.wizard_tabBody.variables #wizard_config_tab');
-                $(config_tab).off('click', tws.dialogTabClickHandler(tag_id)).on('click', tws.dialogTabClickHandler(tag_id))
+                $(config_tab).off('mousedown', tws.dialogTabClickHandler(tag_id)).on('mousedown', tws.dialogTabClickHandler(tag_id))
 
                 // DIALOG WIZARD
                 tws.autoExpandAdvancedSettings();
