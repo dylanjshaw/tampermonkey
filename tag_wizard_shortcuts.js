@@ -242,7 +242,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                 })($('#manage_editmapping_id').val());
             }
     tws.addEditTemplatesToManageScreen = function(container, tag_id) {
-        if (!$(container).find('.manageScreenEditTemplatesButton').length) {}
+        if (!$(container).find('.manageScreenEditTemplatesButton').length) {
             $('<a href="#" data-container-id="'+ tag_id +'" class="manageScreenEditTemplatesButton actionAdvConfigEdit btn btn-small i-color-edit tmui" original-title="This will launch a window that will allow you to view and/or manage the code behind your tag."><i class="icon-edit"></i> Edit Templates</a>')
                 .insertBefore($('.actionEditSettings:visible'))
                 .css('margin-right', '5px')
@@ -255,9 +255,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
     tws.addTagTemplateChangeLogToManageScreen = function(tag_id){
         $('<div class="tmui tagTemplateChangeLogManage" style="position:relative;left:20px;width:155px;"><a href="#" class="btn btn-small tmui" style="font-size:12px;">Tag Template Change Log</a></div>')
             .appendTo('.contextBox:visible')
-            .click(function() {
-            common.utils.openWindow('https://solutions.tealium.net/tools/tagchangelog?uid=' + utui.data.manage[tag_id].tag_id, '_blank');
-        });
+            .click(function() {common.utils.openWindow('https://solutions.tealium.net/tools/tagchangelog?uid=' + utui.data.manage[tag_id].tag_id, '_blank');});
     }
     tws.insideDialogWizard = function(){return $('div[aria-labelledby="ui-dialog-title-manage_dialog_wizard"]').is(':visible')}
     tws.addTemplateChangeLogModalToDialog = function(tag_id){
@@ -265,8 +263,8 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
             $('<div class="tmui tagTemplateChangeLogModal" style="position:relative;left:20px;top:10px;width:155px;"><a href="#" class="btn btn-small tmui" style="font-size:12px;">Tag Template Change Log</a></div>')
                 .appendTo('.wizard_nav:visible')
                 .click(function() {
-                common.utils.openWindow('https://solutions.tealium.net/tools/tagchangelog?uid=' + utui.data.manage[tag_id].tag_id, '_blank');
-            });
+                    common.utils.openWindow('https://solutions.tealium.net/tools/tagchangelog?uid=' + utui.data.manage[tag_id].tag_id, '_blank');
+                    });
         }   
     }
 
