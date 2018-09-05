@@ -258,7 +258,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                 })($('#manage_editmapping_id').val());
             }
     tws.addEditTemplatesToManageScreen = function(tag_id) {
-        $('<a href="#" data-container-id="'+ tag_id +'" class=" manageScreenEditTemplatesButton actionAdvConfigEdit btn btn-small i-color-edit tmui" original-title="This will launch a window that will allow you to view and/or manage the code behind your tag."><i class="icon-edit"></i> Edit Templates</a>')
+        $('<a href="#" data-container-id="'+ tag_id +'" class="manageScreenEditTemplatesButton actionAdvConfigEdit btn btn-small i-color-edit tmui" original-title="This will launch a window that will allow you to view and/or manage the code behind your tag."><i class="icon-edit"></i> Edit Templates</a>')
             .insertBefore($('.actionEditSettings:visible'))
             .css('margin-right', '5px')
             .css('display', 'inline-block')
@@ -343,12 +343,12 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
             // MANAGE SCREEN
 
                 //Add edit templates button on manage screen
-                if (!$(this).find('.manageScreenEditTemplatesButton').length) {
+                if (!$(e.container).find('.manageScreenEditTemplatesButton').length) {
                     tws.addEditTemplatesToManageScreen(tag_id)
                 }
 
                 //Add tag template change log link on mamage screen
-                if (!$(this).find('.tagTemplateChangeLogManage').length) {
+                if (!$(e.container).find('.tagTemplateChangeLogManage').length) {
                     tws.addTagTemplateChangeLogToManageScreen(tag_id)
                 }
 
