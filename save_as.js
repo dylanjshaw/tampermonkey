@@ -56,8 +56,9 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                     $('#savepublish_version_title').val($('#savepublish_version_title').val().replace(/Version/, saveTitle).replace(/(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})(\d{2})/, '$1/$2/$3 $4:$5'));
                     $('#publish_notes').focus();
                 }
-            }).trigger('pseudoclick');
-        }, 100, 30);
+            })
+        });
+        setTimeout(function(){$('span:contains(Save As)').trigger('pseudoclick');},100)
     });
 })
 
