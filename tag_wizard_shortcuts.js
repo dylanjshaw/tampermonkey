@@ -1,19 +1,3 @@
-    // ==UserScript==
-// @name         Single Tool Test
-// @namespace     TIQ
-// @require       http://code.jquery.com/jquery-2.1.1.min.js
-// @require       https://raw.githubusercontent.com/ccampbell/mousetrap/master/mousetrap.min.js
-// @require       https://raw.github.com/ccampbell/mousetrap/master/plugins/global-bind/mousetrap-global-bind.min.js
-// @require       https://code.jquery.com/ui/1.11.2/jquery-ui.js
-// @require       https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js
-// @run-at        document-end
-// @version       3.0
-// @description   Addons to TealiumIQ
-// @include       *my.tealiumiq.com/tms
-// @updateURL     https://solutions.tealium.net/hosted/tampermonkey/tealiumiq.user.js
-// ==/UserScript==
-
-
 /************** Add common utility functions Start ***************************/
 var keepTrying = function(func, callback, sleep) {
     if (typeof(sleep) == 'undefined') {
@@ -257,14 +241,16 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                     }, 250);
                 })($('#manage_editmapping_id').val());
             }
-    tws.addEditTemplatesToManageScreen = function(tag_id) {
-        $('<a href="#" data-container-id="'+ tag_id +'" class="manageScreenEditTemplatesButton actionAdvConfigEdit btn btn-small i-color-edit tmui" original-title="This will launch a window that will allow you to view and/or manage the code behind your tag."><i class="icon-edit"></i> Edit Templates</a>')
-            .insertBefore($('.actionEditSettings:visible'))
-            .css('margin-right', '5px')
-            .css('display', 'inline-block')
-            .click(function() {
-            utui.adminlib.getTemplateList(tag_id);
-        });
+    tws.addEditTemplatesToManageScreen = function(container, tag_id) {
+        if (!$(container).find('.manageScreenEditTemplatesButton').length) {}
+            $('<a href="#" data-container-id="'+ tag_id +'" class="manageScreenEditTemplatesButton actionAdvConfigEdit btn btn-small i-color-edit tmui" original-title="This will launch a window that will allow you to view and/or manage the code behind your tag."><i class="icon-edit"></i> Edit Templates</a>')
+                .insertBefore($('.actionEditSettings:visible'))
+                .css('margin-right', '5px')
+                .css('display', 'inline-block')
+                .click(function() {
+                utui.adminlib.getTemplateList(tag_id);
+            });
+        }
     }
     tws.addTagTemplateChangeLogToManageScreen = function(tag_id){
         $('<div class="tmui tagTemplateChangeLogManage" style="position:relative;left:20px;width:155px;"><a href="#" class="btn btn-small tmui" style="font-size:12px;">Tag Template Change Log</a></div>')
@@ -344,7 +330,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
 
                 //Add edit templates button on manage screen
                 if (!$(e.container).find('.manageScreenEditTemplatesButton').length) {
-                    tws.addEditTemplatesToManageScreen(tag_id)
+                    tws.addEditTemplatesToManageScreen(e.container,tag_id)
                 }
 
                 //Add tag template change log link on mamage screen
@@ -355,8 +341,6 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
             // DIALOG WIZARD
             
             var edit_btns = $('#' + e.container).find('span.actionEditSettings, span.actionEditRules, span.actionMapping');
-
-            // $('#' + e.container).on('click', edit_btns, function(e) {
             $(edit_btns).on('click', edit_btns, function(e) {
 
                     $('.wizard_tabBody.variables #wizard_config_tab').on('click', tws.dialogTabClickHandler())
