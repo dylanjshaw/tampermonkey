@@ -27,6 +27,7 @@ var when = function(test, run, sleep) {
 
 
 utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
+
 /************** Add common utility functions End ***************************/
     var tws = {};
     tws.autoExpandAdvancedSettings = function(){
@@ -327,6 +328,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
             // MANAGE SCREEN
 
                 //Add edit templates button on manage screen
+                $('.manageScreenEditTemplatesButton').remove();
                 if (!$(e.container).find('.manageScreenEditTemplatesButton').length) {
                     tws.addEditTemplatesToManageScreen(e.container,tag_id)
                 }
