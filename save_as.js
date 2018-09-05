@@ -57,7 +57,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                     $('#publish_notes').focus();
                 }
             }).trigger('pseudoclick');
-        });
+        }, 100, 10);
     });
 })
 
