@@ -1,3 +1,19 @@
+    // ==UserScript==
+// @name         Single Tool Test
+// @namespace     TIQ
+// @require       http://code.jquery.com/jquery-2.1.1.min.js
+// @require       https://raw.githubusercontent.com/ccampbell/mousetrap/master/mousetrap.min.js
+// @require       https://raw.github.com/ccampbell/mousetrap/master/plugins/global-bind/mousetrap-global-bind.min.js
+// @require       https://code.jquery.com/ui/1.11.2/jquery-ui.js
+// @require       https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js
+// @run-at        document-end
+// @version       3.0
+// @description   Addons to TealiumIQ
+// @include       *my.tealiumiq.com/tms
+// @updateURL     https://solutions.tealium.net/hosted/tampermonkey/tealiumiq.user.js
+// ==/UserScript==
+
+
 var keepTrying = function(test, callback, sleep, maxAttempts) {
     if (typeof(sleep) == 'undefined') {
         sleep = 100;
@@ -43,22 +59,21 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
         when(function() {
             return ($('span:contains(Save As)').is(':visible'));
         }, function() {
-            $('#checkBtn_dev').not('.publish_connector_connected').click();
-            $('#checkBtn_qa').not('.publish_connector_connected').click();
-            //Fix tab order
-            $('input[name*=forceFTP]').attr('tabindex', 999);
-            $('.ui-button-text:contains(Publish)').attr('tabindex', 1);
-            var origSaveTitle = $('#profile_legend_revision').text().trim();
-            var saveTitle = $('#profile_legend_revision').text().trim().replace(/\d{4}\.\d{2}\.\d{2}\.\d{4}/g, '').replace(/\d{4}\/\d{2}\/\d{2}\ \d{2}:\d{2}/g, '').trim();  
-            if (!saveTitle.match(/ -$/)) {saveTitle += ' -';}
-            $('span:contains(Save As)').on('pseudoclick', function() {
+            setTimeout(function(){
+                $('#checkBtn_dev').not('.publish_connector_connected').click();
+                $('#checkBtn_qa').not('.publish_connector_connected').click();
+                //Fix tab order
+                $('input[name*=forceFTP]').attr('tabindex', 999);
+                $('.ui-button-text:contains(Publish)').attr('tabindex', 1);
+                var origSaveTitle = $('#profile_legend_revision').text().trim();
+                var saveTitle = $('#profile_legend_revision').text().trim().replace(/\d{4}\.\d{2}\.\d{2}\.\d{4}/g, '').replace(/\d{4}\/\d{2}\/\d{2}\ \d{2}:\d{2}/g, '').trim();  
+                if (!saveTitle.match(/ -$/)) {saveTitle += ' -';}
                 if(origSaveTitle != $('#savepublish_version_title').val()){
                     $('#savepublish_version_title').val($('#savepublish_version_title').val().replace(/Version/, saveTitle).replace(/(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})(\d{2})/, '$1/$2/$3 $4:$5'));
                     $('#publish_notes').focus();
                 }
-            }, 100, 10)
+            },300)
         });
-        setTimeout(function(){$('span:contains(Save As)').trigger('pseudoclick');},1000)
     });
 })
 
