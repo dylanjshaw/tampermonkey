@@ -60,6 +60,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
             return ($('span:contains(Save As)').is(':visible'));
         }, function() {
             setTimeout(function(){
+                console.log('inside saveAs when callback')
                 $('#checkBtn_dev').not('.publish_connector_connected').click();
                 $('#checkBtn_qa').not('.publish_connector_connected').click();
                 //Fix tab order
