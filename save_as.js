@@ -55,7 +55,7 @@ var when = function(test, run, sleep, maxAttempts) {
 
 
 utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
-    $('#global_save').click(function() {
+    $(document).on('click', '#global_save', function() {
         when(function() {
             return ($('span:contains(Save As)').is(':visible'));
         }, function() {
