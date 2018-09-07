@@ -1,26 +1,76 @@
-utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
-    var highlightAccount = function() {
-        $('#profile_account-autocomplete')[0].setSelectionRange(0, $('#profile_account-autocomplete').val().length);
-    }
-    var highlightProfile = function() {
-        $('#profile_profileid-autocomplete')[0].setSelectionRange(0, $('#profile_profileid-autocomplete').val().length);
-    }
-    $('#ui-active-menuitem').on('click', function() {
-        console.log('clicked on active menu item');
-    });
-    $('#profile_menu_wrapper').click(function() {
-        $('#profile_account-autocomplete')
-            .attr('type', 'text')
-            .click(highlightAccount)
-            .change(function() {
-                console.log('account changed');
-                setTimeout(highlightProfile, 250);
-            });
-        $('#lastaccount button').click(highlightAccount);
-        $('#profile_profileid-autocomplete')
-            .attr('type', 'text')
-            .click(highlightProfile);
-        $('#lastprofile button').click(highlightProfile);
-    });
+    // ==UserScript==
+// @name         Single Tool Test
+// @namespace     TIQ
+// @require       http://code.jquery.com/jquery-2.1.1.min.js
+// @require       https://raw.githubusercontent.com/ccampbell/mousetrap/master/mousetrap.min.js
+// @require       https://raw.github.com/ccampbell/mousetrap/master/plugins/global-bind/mousetrap-global-bind.min.js
+// @require       https://code.jquery.com/ui/1.11.2/jquery-ui.js
+// @require       https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js
+// @run-at        document-end
+// @version       3.0
+// @description   Addons to TealiumIQ
+// @include       *my.tealiumiq.com/tms
+// @updateURL     https://solutions.tealium.net/hosted/tampermonkey/tealiumiq.user.js
+// ==/UserScript==
 
-})
+
+    var keepTrying = function(test, callback, sleep, maxAttempts) {
+    if (typeof(sleep) == 'undefined') {
+        sleep = 100;
+    }
+    var totalAttempts = 0;
+    var args = Array.prototype.slice.call(arguments, 2);
+    var incrementAttempts = function() {
+        totalAttempts++;
+        if (typeof maxAttempts !== 'undefined') {
+            if (totalAttempts > maxAttempts) {
+                clearInterval(timer);
+                console.log('Reached maximum number of attempts.  Going to stop checking.')
+            }
+        }
+    }
+    var timer = setInterval(function() {
+        try {
+            if (test.apply(null, args)) {
+                clearInterval(timer);
+                // console.log('done trying: '+test);
+                callback();
+            } else {
+                // console.log('tried: '+test);
+                incrementAttempts();
+            }
+        } catch (e) {
+            console.log('Failure in check: ' + e);
+            incrementAttempts();
+        }
+    }, sleep);
+}
+var when = function(test, run, sleep, maxAttempts) {
+    var args = Array.prototype.slice.call(arguments, 2);
+    keepTrying(test, function() {
+        run.apply(null, args);
+    },
+    sleep, maxAttempts);
+}
+
+
+// utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
+
+
+    function highlight(input){input.setSelectionRange(0, input.value.length)}
+    function visible(input){return input && input.offsetWidth > 0 && input.offsetHeight > 0}
+
+    $(document).on('focus', '#profile_account-autocomplete,#profile_profileid-autocomplete,#profile_revision-autocomplete', function(e){highlight(e.target)})        
+    $(document).on('mousedown', '#lastaccount button,#lastprofile button', function(e){highlight(e.target.parentElement.parentElement.parentElement.getElementsByTagName('input')[0])})
+    
+
+    $('#profile_menu_wrapper').on('mousedown', function(e){
+        if(visible(document.getElementById('profile_account-autocomplete'))){return}
+        when(function(){return (document.getElementById('profile_account-autocomplete') && document.getElementById('profile_account-autocomplete').value.length)}, 
+        function(){
+            document.getElementById('profile_account-autocomplete').focus()
+        })
+    })
+
+
+// })
