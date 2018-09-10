@@ -17338,13 +17338,7 @@ function sortExtensions() {
 }
 
 function createExtensionShortcutButtons() {
-    if (!$('#customize_sortBtn').length) {
-        $('<span id="customize_sortBtn" class="btn btn-info tmui">Sort Extensions</span>')
-            .css('float', 'left')
-            .css('margin-left', '10px')
-            .click(sortExtensions)
-            .appendTo('#tabs-customizations .config_button_nofloat');
-    }
+
     if (!$('#conditionCheck').length) {
         $('<button id="conditionCheck" class="btn btn-info tmui">Condition Check</button>')
             .css('float', 'left')
@@ -17352,6 +17346,13 @@ function createExtensionShortcutButtons() {
             .css('margin-left', '10px')
             .click(conditionChecker)
             .prependTo('#tabs-customizations .config_button_nofloat');
+    }
+    if (!$('#customize_sortBtn').length) {
+        $('<span id="customize_sortBtn" class="btn btn-info tmui">Sort Extensions</span>')
+            .css('float', 'left')
+            .css('margin-left', '10px')
+            .click(sortExtensions)
+            .appendTo('#tabs-customizations .config_button_nofloat');
     }
 
     if (!$('#customize_addDebugBtn').length) {
