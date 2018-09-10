@@ -1,17 +1,3 @@
-    // ==UserScript==
-// @name         Single Tool Test
-// @namespace     TIQ
-// @require       http://code.jquery.com/jquery-2.1.1.min.js
-// @require       https://raw.githubusercontent.com/ccampbell/mousetrap/master/mousetrap.min.js
-// @require       https://raw.github.com/ccampbell/mousetrap/master/plugins/global-bind/mousetrap-global-bind.min.js
-// @require       https://code.jquery.com/ui/1.11.2/jquery-ui.js
-// @require       https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js
-// @run-at        document-end
-// @version       3.0
-// @description   Addons to TealiumIQ
-// @include       *my.tealiumiq.com/tms
-// @updateURL     https://solutions.tealium.net/hosted/tampermonkey/tealiumiq.user.js
-// ==/UserScript==
 
 
     var keepTrying = function(test, callback, sleep, maxAttempts) {

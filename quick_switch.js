@@ -440,9 +440,64 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
                 });
             }
         }
-        console.log('Quick Switch v2 Loaded');
+
+
+    markTagAsNotSaved = function(tag_id) {
+        var containerId = $('.manage_container[data-id="' + tag_id + '"]').attr('id');
+        var tagObj = utui.manage.containerMap[containerId];
+        utui.profile.setActionPerformed({
+            action: utui.constants.tags.UPDATED,
+            data: {
+                id: tagObj.id,
+                tag_name: tagObj.tag_name || utui.util.getTagNameFromTagId(tagObj.tag_id),
+                name: tagObj.title,
+                kind: utui.constants.tags.TYPE,
+                operation: utui.constants.operation.UPDATED,
+                container: containerId
+            }
+        }, true);
+
+        utui.manage.newTagFlag = false;
+        utui.manage.saveData();
+
+        utui.util.pubsub.publish(utui.constants.tags.UPDATED, {
+            action: utui.constants.tags.UPDATED,
+            data: {
+                id: tagObj.id,
+                tag_name: tagObj.tag_name || utui.util.getTagNameFromTagId(tagObj.tag_id),
+                name: tagObj.title
+            }
+        });
+    }
 
 utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
     window.setupQuickSwitchV2()
+        //Capture Save
+        Mousetrap.bindGlobal('mod+s', function(e) {
+            e.preventDefault();
+            if ($('div[aria-labelledby="ui-dialog-title-admin_dialog"]:visible').length) {
+                var versionSelected = $('#admin_template_select option:selected').text()
+                if(versionSelected.indexOf('(Profile)')>-1){$('span:contains("Save Profile Template")').click();}else{$('span:contains("Save Version Template")').click()}
+                var uid = versionSelected.split(':');
+                uid = uid[uid.length-1]
+                markTagAsNotSaved(uid)
+            } else {
+                //Click Save and Publish
+                $('#global_save').click();
+            }
+        });
+
+        //Capture Escape
+        Mousetrap.bindGlobal('esc', function(e) {
+            e.preventDefault();
+            if($('.ui-dialog:visible').length){
+                var dialog_array = $('.ui-dialog');
+                var current_dialog = dialog_array[dialog_array.length-1];
+                var close_btn = $(current_dialog).find('span:contains("Cancel")').length ? $(current_dialog).find('span:contains("Cancel")') : $(current_dialog).find('span:contains("Close")')  
+                $(close_btn).click();
+            }
+        });
 })
-console.log('Quick Switch v2 Loaded');
+
+
+
