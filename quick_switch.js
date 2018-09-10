@@ -495,6 +495,10 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                 var current_dialog = dialog_array[dialog_array.length-1];
                 var close_btn = $(current_dialog).find('span:contains("Cancel")').length ? $(current_dialog).find('span:contains("Cancel")') : $(current_dialog).find('span:contains("Close")')  
                 $(close_btn).click();
+            } else if($('#account_message_popup:visible')) {
+                var dialog = $('#account_message_popup');
+                var close_btn = $(dialog).find('span:contains("Close")');
+                $(close_btn).click()
             }
         });
 })
