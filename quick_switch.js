@@ -1,3 +1,20 @@
+    // ==UserScript==
+// @name         Single Tool Test
+// @namespace     TIQ
+// @require       http://code.jquery.com/jquery-2.1.1.min.js
+// @require       https://raw.githubusercontent.com/ccampbell/mousetrap/master/mousetrap.min.js
+// @require       https://raw.github.com/ccampbell/mousetrap/master/plugins/global-bind/mousetrap-global-bind.min.js
+// @require       https://code.jquery.com/ui/1.11.2/jquery-ui.js
+// @require       https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js
+// @run-at        document-end
+// @version       3.0
+// @description   Addons to TealiumIQ
+// @include       *my.tealiumiq.com/tms
+// @updateURL     https://solutions.tealium.net/hosted/tampermonkey/tealiumiq.user.js
+// ==/UserScript==
+
+
+
 // import MouseTrap
 /* mousetrap v1.6.2 craig.is/killing/mice */
 (function(p,t,h){function u(a,b,d){a.addEventListener?a.addEventListener(b,d,!1):a.attachEvent("on"+b,d)}function y(a){if("keypress"==a.type){var b=String.fromCharCode(a.which);a.shiftKey||(b=b.toLowerCase());return b}return m[a.which]?m[a.which]:q[a.which]?q[a.which]:String.fromCharCode(a.which).toLowerCase()}function E(a){var b=[];a.shiftKey&&b.push("shift");a.altKey&&b.push("alt");a.ctrlKey&&b.push("ctrl");a.metaKey&&b.push("meta");return b}function v(a){return"shift"==a||"ctrl"==a||"alt"==a||
@@ -491,9 +508,15 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
         Mousetrap.bindGlobal('esc', function(e) {
             e.preventDefault();
             if($('.ui-dialog:visible').length){
-                var dialog_array = $('.ui-dialog');
-                var current_dialog = dialog_array[dialog_array.length-1];
-                var close_btn = $(current_dialog).find('span:contains("Cancel")').length ? $(current_dialog).find('span:contains("Cancel")') : $(current_dialog).find('span:contains("Close")')  
+                var dialog_array = $('.ui-dialog'), current_dialog, close_btn;
+                $.each(dialog_array,function(index,dialog){if($(dialog).is(":visible")){current_dialog = dialog}});
+                if($(current_dialog).find('span:contains("Cancel")').length){
+                    close_btn = $(current_dialog).find('span:contains("Cancel")')
+                } else if($(current_dialog).find('span:contains("Close")').length){
+                    close_btn = $(current_dialog).find('span:contains("Close")')
+                } else {
+                    close_btn = $(current_dialog).find('span:contains("close")')
+                }
                 $(close_btn).click();
             } else if($('#account_message_popup:visible')) {
                 var dialog = $('#account_message_popup');
