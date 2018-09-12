@@ -6599,7 +6599,7 @@
         var button = jQuery.parseHTML("<button id='fixConditions' class='btn btn-info tmui' style='float: left;margin-top:0;margin-left:10px;'>Fix Conditions</button>");
         load_rules_header.find('#fixConditions').remove();
         jQuery(load_rules_header).append(button)
-        jQuery(button).on('click', function() {
+        jQuery(button).off('click').on('click', function() {
             window.add_isDefinedAll()
         });
     })
