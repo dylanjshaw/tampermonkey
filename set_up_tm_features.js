@@ -88,7 +88,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
             if (featureName == 'tiq_features_opt_in') {
                 featuresOptIn = checked;
             } else {
-                features[featureName].enabled = checked;
+                window.features[featureName].enabled = checked;
             }
         });
 
@@ -97,7 +97,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
         localStorage.removeItem('tiq_features_opt_in');
 
 
-        localStorage.setItem("tiq_features", JSON.stringify(features));
+        localStorage.setItem("tiq_features", JSON.stringify(window.features));
         localStorage.setItem("tiq_features_opt_in", featuresOptIn);
         $('#featuresMessage').html('Successfully Updated Your Preferences!<br/><br/><span style="color: red;"> You will need to refresh TIQ for updates to take effect.</span>');
     }
@@ -107,7 +107,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
         if (!$('#updateTMFeatures').length) {
             $('<li class="tmui"><a href="#" id="updateTMFeatures">Enable/Disable TM Features</a></li>')
                 .click(function() {
-                showManageFeatures(features);
+                showManageFeatures(window.features);
             })
                 .insertAfter('#tabs-dashboard .dialog-context-nav li:last');
         }
@@ -119,7 +119,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
         if (!$('#updateTMFeatures').length) {
             $('<li class="tmui"><a href="#" id="updateTMFeatures">Enable/Disable TM Features</a></li>')
                 .click(function() {
-                showManageFeatures(features);
+                showManageFeatures(window.features);
             })
                 .insertAfter('#tabs-dashboard .dialog-context-nav li:last');
         }
