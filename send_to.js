@@ -38,44 +38,33 @@ var when = function(test, run, sleep, maxAttempts) {
 }
 
     function sendToTopBottomListener() {
-        //Let's first remove the listener before adding a new one.
-        $('.label_select_checkbox').off('click');
-        $('.label_select_checkbox').on('click', function() {
+         $('.label_select_checkbox').off('click').on('click', function(e) {
+            e.stopPropagation();
             var tab = $(this).closest('div[id^="tabs-"]').attr('id');
-            // console.log('Clicked the checkbox in tab: '+tab);
-            if ($('#' + tab).find('.label_select_checkbox:checked').length) {
-                // console.log('Must have something checked');
-                //Only add the buttons if they don't exist already
-                if (!$('#' + tab + ' #sendToTop').length) {
-                    $('<div class="tab-menu-item"><button id="sendToTop" class="btn btn-success tmui" style="margin-top:0;"><i class="icon-arrow-up"></i> Send to Top</button></div>')
-                        .prependTo('#' + tab + ' div[id$="_headerControls"]');
-                    $('<div class="tab-menu-item"><button id="sendToBottom" class="btn btn-success tmui" style="margin-top:0;"><i class="icon-arrow-down"></i> Send to Bottom</button></div>')
-                        .prependTo('#' + tab + ' div[id$="_headerControls"]');
-                    //Add click handlers
-                    $('#' + tab + ' #sendToTop').click(function() {
-                        sendToTop(tab);
-                    });
-                    $('#' + tab + ' #sendToBottom').click(function() {
-                        sendToBottom(tab);
-                    });
+            if($('#' + tab).find('.label_select_checkbox:checked').length > 0){
+                if($('#' + tab).find('#sendToTop').length == 0){
+                    $('<div class="tab-menu-item"><button id="sendToTop" class="btn btn-success tmui" style="margin-top:0;"><i class="icon-arrow-up"></i> Send to Top</button></div>').click(function(){sendToTop(tab)}).prependTo('#' + tab + ' div[id$="_headerControls"]');
+                    $('<div class="tab-menu-item"><button id="sendToBottom" class="btn btn-success tmui" style="margin-top:0;"><i class="icon-arrow-down"></i> Send to Bottom</button></div>').click(function(){sendToBottom(tab)}).prependTo('#' + tab + ' div[id$="_headerControls"]');   
+                    $(this).prop('checked','checked')
                 }
-                // if (features.fixExtensionConditions.enabled) {
-                // fixExtensionConditionsListener();
-                // }
-            } else {
-                // console.log('Nothing checked.');
-                $('#' + tab + ' #sendToTop,#' + tab + ' #sendToBottom').parent().remove();
-            }
-        });
+            } else {$('#' + tab + ' #sendToTop,#' + tab + ' #sendToBottom').parent().remove();}
+        })
     }
 
     function sendToBottom(tab) {
         // console.log('going to send to bottom');
         var elements = getCheckedElements(tab);
         for (var i = 0; i < elements.length; i++) {
-            $(elements[i]).appendTo('#' + tab + ' div[id$="_content"]');
+            $(elements[i]).detach().appendTo('#' + tab + ' div[id$="_content"]');
+            // $('#' + tab + ' div[id$="_content"]').remove()append(elements[i])
         }
-        redrawUI(tab);
+        $('#' + tab).find('.label_select_checkbox:checked').prop('checked', false);
+        $('#' + tab + ' #sendToTop,#' + tab + ' #sendToBottom').parent().remove();
+        when(function(){
+            return $('#' + tab).find('.label_select_checkbox:checked').length == 0; 
+        }, function(){
+            redrawUI(tab);
+        })
     }
 
     function sendToTop(tab) {
@@ -84,15 +73,23 @@ var when = function(test, run, sleep, maxAttempts) {
         getCheckedElements(tab).each(function() {
             elements.push(this);
         });
+        debugger
         elements = elements.reverse();
         for (var i = 0; i < elements.length; i++) {
-            $(elements[i]).prependTo('#' + tab + ' div[id$="_content"]');
+            $(elements[i]).detach().prependTo('#' + tab + ' div[id$="_content"]');
+            // $('#' + tab + ' div[id$="_content"]').prepend(elements[i])
         }
         if (tab === 'tabs-loadrules') {
             //Need to make sure that All Pages stays on top
             $('div[data-id="all"]').prependTo('#' + tab + ' div[id$="_content"]');
         }
-        redrawUI(tab);
+        $('#' + tab).find('.label_select_checkbox:checked').prop('checked', false);
+        $('#' + tab + ' #sendToTop,#' + tab + ' #sendToBottom').parent().remove();
+        when(function(){
+            return $('#' + tab).find('.label_select_checkbox:checked').length == 0; 
+        }, function(){
+            redrawUI(tab);
+        })
     }
 
     function getCheckedElements(tab) {
