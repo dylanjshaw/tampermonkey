@@ -101,6 +101,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
         localStorage.setItem("tiq_features_opt_in", featuresOptIn);
         $('#featuresMessage').html('Successfully Updated Your Preferences!<br/><br/><span style="color: red;"> You will need to refresh TIQ for updates to take effect.</span>');
     }
+
     var myiqObserver = new MutationObserver(function(mutations) {
         console.log('MutationObserver of the My iQ left navigation');
         if (!$('#updateTMFeatures').length) {
@@ -111,7 +112,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                 .insertAfter('#tabs-dashboard .dialog-context-nav li:last');
         }
     });
-    myiqObserver.observe(document.querySelector('#tabs-dashboard #my_site_context'), observerConfig);
+    myiqObserver.observe(document.querySelector('#tabs-dashboard #my_site_context'), {attributes: true,childList: true,characterData: true});
     when(function() {
         return $('#tabs-dashboard #my_site_context').is(':visible');
     }, function() {
