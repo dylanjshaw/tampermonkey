@@ -1,15 +1,3 @@
-    // ==UserScript==
-    // @name         Single Tool Test
-    // @namespace     TIQ
-    // @require       http://code.jquery.com/jquery-2.1.1.min.js
-    // @run-at        document-end
-    // @version       3.0
-    // @description   Addons to TealiumIQ
-    // @include       *my.tealiumiq.com/tms
-    // @updateURL     https://solutions.tealium.net/hosted/tampermonkey/tealiumiq.user.js
-    // ==/UserScript==
-
-
     // import lodash
     window.dylan = window.dylan || {};
     window.dylan.lodash = window.dylan.lodash || function() {
