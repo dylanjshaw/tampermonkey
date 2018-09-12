@@ -1233,8 +1233,8 @@
     });
 
     // import lodash
-	window.dylan = {};
-    window.dylan.lodash = function() {
+    window.dylan = window.dylan || {};
+    window.dylan.lodash = window.dylan.lodash || function() {
         var undefined, VERSION = "4.17.5",
             LARGE_ARRAY_SIZE = 200,
             CORE_ERROR_TEXT = "Unsupported core-js use. Try https://npms.io/search?q=ponyfill.",
