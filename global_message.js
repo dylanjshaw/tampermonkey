@@ -39,6 +39,7 @@ var when = function(test, run, sleep, maxAttempts) {
 
 
 utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
+    $('#getGlobalMessage').remove()
     var my_site_context = $('#tabs-dashboard #my_site_context').children()[0];
     var global_message_button = $('<li class="tmui"><a href="#" id="getGlobalMessage">Show Global Message</a></li>').click(function() {
         __getGlobalMessageAllow = 'true';
