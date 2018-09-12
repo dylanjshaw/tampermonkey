@@ -70,7 +70,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
             window.open('https://community.tealiumiq.com/t5/Training-and-Onboarding/Tampermonkey-Enhancements-for-Tealium-iQ/m-p/13822#M28', '_blank');
         })
             // .insertAfter('#featuresMessage');
-        var enabled = featuresOptIn ? 'checked' : '';
+        var enabled = window.featuresOptIn ? 'checked' : '';
         $('<tr><td>Auto Enable Features</td><td><input type="checkbox" data-feature-name="tiq_features_opt_in" ' + enabled + ' /></td></tr>')
             .appendTo('#featuresForm tbody');
         Object.keys(data).forEach(function(key) {
@@ -86,7 +86,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
             var checked = $(this).find('td:last input').is(':checked') ? 1 : 0;
             var featureName = $(this).find('td:last input').attr('data-feature-name');
             if (featureName == 'tiq_features_opt_in') {
-                featuresOptIn = checked;
+                window.featuresOptIn = checked;
             } else {
                 window.features[featureName].enabled = checked;
             }
@@ -98,7 +98,7 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
 
 
         localStorage.setItem("tiq_features", JSON.stringify(window.features));
-        localStorage.setItem("tiq_features_opt_in", featuresOptIn);
+        localStorage.setItem("tiq_features_opt_in", window.featuresOptIn);
         $('#featuresMessage').html('Successfully Updated Your Preferences!<br/><br/><span style="color: red;"> You will need to refresh TIQ for updates to take effect.</span>');
     }
 
