@@ -9,10 +9,9 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                 $("#csv_load_rules").val("");
                 $("#load_rules_container").hide();
             });
-            $("#loadrules_button_import").click(function(e) {
+            $("#loadrules_button_import").off('click').click(function(e) {
                 $("#csv_load_rules").val(""); 
                 $("#load_rules_container").toggle();
-                e.stopPropagation();
             });
             $("#add_load_rules").click(function() {
                 var rules = $("#csv_load_rules").val();
