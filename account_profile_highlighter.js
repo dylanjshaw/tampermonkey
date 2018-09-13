@@ -1,6 +1,4 @@
-
-
-    var keepTrying = function(test, callback, sleep, maxAttempts) {
+var keepTrying = function(test, callback, sleep, maxAttempts) {
     if (typeof(sleep) == 'undefined') {
         sleep = 100;
     }
@@ -40,23 +38,17 @@ var when = function(test, run, sleep, maxAttempts) {
 }
 
 
-// utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
+function highlight(input){input.setSelectionRange(0, input.value.length)}
+function visible(input){return input && input.offsetWidth > 0 && input.offsetHeight > 0}
+
+$(document).on('focus', '#select_account,#select_profile', function(e){highlight(e.target)})        
+$(document).on('mousedown', 'button[title="Show All Accounts"],button[title="Show All Profiles"]', function(e){highlight(e.target.parentElement.parentElement.parentElement.getElementsByTagName('input')[0])})
 
 
-    function highlight(input){input.setSelectionRange(0, input.value.length)}
-    function visible(input){return input && input.offsetWidth > 0 && input.offsetHeight > 0}
-
-    $(document).on('focus', '#profile_account-autocomplete,#profile_profileid-autocomplete,#profile_revision-autocomplete', function(e){highlight(e.target)})        
-    $(document).on('mousedown', '#lastaccount button,#lastprofile button', function(e){highlight(e.target.parentElement.parentElement.parentElement.getElementsByTagName('input')[0])})
-    
-
-    $('#profile_menu_wrapper').on('mousedown', function(e){
-        if(visible(document.getElementById('profile_account-autocomplete'))){return}
-        when(function(){return (document.getElementById('profile_account-autocomplete') && document.getElementById('profile_account-autocomplete').value.length)}, 
-        function(){
-            document.getElementById('profile_account-autocomplete').focus()
-        })
+$('#profile_menu_wrapper').on('mousedown', function(e){
+    if(visible(document.getElementById('select_account'))){return}
+    when(function(){return (document.getElementById('select_account') && document.getElementById('select_account').value.length)}, 
+    function(){
+        document.getElementById('select_account').focus()
     })
-
-
-// })
+})
