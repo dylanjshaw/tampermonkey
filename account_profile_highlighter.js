@@ -38,17 +38,21 @@ var when = function(test, run, sleep, maxAttempts) {
 }
 
 
-function highlight(input){input.setSelectionRange(0, input.value.length)}
-function visible(input){return input && input.offsetWidth > 0 && input.offsetHeight > 0}
+utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function(){
+    function highlight(input){input.setSelectionRange(0, input.value.length)}
+    function visible(input){return input && input.offsetWidth > 0 && input.offsetHeight > 0}
 
-$(document).on('focus', '#select_account,#select_profile', function(e){highlight(e.target)})        
-$(document).on('mousedown', 'button[title="Show All Accounts"],button[title="Show All Profiles"]', function(e){highlight(e.target.parentElement.parentElement.parentElement.getElementsByTagName('input')[0])})
+    $(document).on('focus', '#select_account,#select_profile', function(e){highlight(e.target)})        
+    $(document).on('mousedown', 'button[title="Show All Accounts"],button[title="Show All Profiles"]', function(e){highlight(e.target.parentElement.parentElement.parentElement.getElementsByTagName('input')[0])})
 
 
-$('#profile_menu_wrapper').on('mousedown', function(e){
-    if(visible(document.getElementById('select_account'))){return}
-    when(function(){return (document.getElementById('select_account') && document.getElementById('select_account').value.length)}, 
-    function(){
-        document.getElementById('select_account').focus()
+    $('#profile_menu_wrapper').on('mousedown', function(e){
+        if(visible(document.getElementById('select_account'))){return}
+        when(function(){return (document.getElementById('select_account') && document.getElementById('select_account').value.length)}, 
+        function(){
+            document.getElementById('select_account').focus()
+        })
     })
 })
+
+
