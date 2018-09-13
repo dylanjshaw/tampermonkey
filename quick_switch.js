@@ -305,6 +305,49 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
             });
         }
 
+        function highlight(input){input.setSelectionRange(0, input.value.length)}
+        // function visible(input){return input && input.offsetWidth > 0 && input.offsetHeight > 0}
+
+        var keepTrying = function(test, callback, sleep, maxAttempts) {
+            if (typeof(sleep) == 'undefined') {
+                sleep = 100;
+            }
+            var totalAttempts = 0;
+            var args = Array.prototype.slice.call(arguments, 2);
+            var incrementAttempts = function() {
+                totalAttempts++;
+                if (typeof maxAttempts !== 'undefined') {
+                    if (totalAttempts > maxAttempts) {
+                        clearInterval(timer);
+                        console.log('Reached maximum number of attempts.  Going to stop checking.')
+                    }
+                }
+            }
+            var timer = setInterval(function() {
+                try {
+                    if (test.apply(null, args)) {
+                        clearInterval(timer);
+                        // console.log('done trying: '+test);
+                        callback();
+                    } else {
+                        // console.log('tried: '+test);
+                        incrementAttempts();
+                    }
+                } catch (e) {
+                    console.log('Failure in check: ' + e);
+                    incrementAttempts();
+                }
+            }, sleep);
+        }
+        var when = function(test, run, sleep, maxAttempts) {
+            var args = Array.prototype.slice.call(arguments, 2);
+            keepTrying(test, function() {
+                run.apply(null, args);
+            },
+            sleep, maxAttempts);
+        }
+
+
         window.setupQuickSwitchV2 = function() {
             //Setup Recent History
             $('#recentprofiles').hide();
@@ -376,12 +419,12 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
                                 if ($(this).val().length > 1) {
                                     getAccountProfiles($(this).val());
                                 }
-                            });
+                                })
+                                .focus(function(e){highlight(e.target)});
                             $('<button type="button" tabindex="-1" title="Show All Accounts" class="ui-button ui-widget ui-state-default ui-button-icon-only ui-corner-right ui-button-icon"><span class="ui-button-icon-primary ui-icon ui-icon-triangle-1-s"></span><span class="ui-button-text"> </span></button>')
                                 .insertAfter('#select_account')
-                                .click(function() {
-                                $('#select_account').focus().autocomplete("search", "");
-                            });
+                                // .mousedown(function(e){highlight(e.target.parentElement.parentElement.parentElement.getElementsByTagName('input')[0])})
+                                .click(function() {$('#select_account').focus().autocomplete("search", "");});
                             //Turn on auto complete for accounts
                             $('#select_account').autocomplete({
                                 source: accounts,
@@ -392,11 +435,6 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
                                 }
                             });
                         } else {
-                            // $('<button type="button" tabindex="-1" title="Show All Accounts" class="ui-button ui-widget ui-state-default ui-button-icon-only ui-corner-right ui-button-icon"><span class="ui-button-icon-primary ui-icon ui-icon-triangle-1-s"></span><span class="ui-button-text"> </span></button>')
-                            //   .insertAfter('#select_account')
-                            //   .click(function(){
-                            //     setupShowAll(this);
-                            //   });
                             $('#select_account').val(current_account);
                         }
                         //Grab all profiles
@@ -407,12 +445,12 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
                         //Create our own profile selector
                         if (!$('#select_profile').length) {
                             $('<input id="select_profile" class="ui-widget ui-widget-content ui-corner-left" value="' + current_profile + '"/>')
+                                .focus(function(e){highlight(e.target)})
                                 .insertAfter('#profile_profileid-autocomplete');
                             $('<button type="button" tabindex="-1" title="Show All Profiles" class="ui-button ui-widget ui-state-default ui-button-icon-only ui-corner-right ui-button-icon"><span class="ui-button-icon-primary ui-icon ui-icon-triangle-1-s"></span><span class="ui-button-text"> </span></button>')
                                 .insertAfter('#select_profile')
-                                .click(function() {
-                                $('#select_profile').focus().autocomplete("search", "");
-                            });
+                                // .mousedown(function(e){highlight(e.target.parentElement.parentElement.parentElement.getElementsByTagName('input')[0])})
+                                .click(function() {$('#select_profile').focus().autocomplete("search", "");});
                             //Turn on auto complete for profiles
                             $('#select_profile').autocomplete({
                                 source: profiles,
@@ -420,16 +458,8 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
                                 minLength: 0
                             });
                         } else {
-                            // $('<button type="button" tabindex="-1" title="Show All Profiles" class="ui-button ui-widget ui-state-default ui-button-icon-only ui-corner-right ui-button-icon"><span class="ui-button-icon-primary ui-icon ui-icon-triangle-1-s"></span><span class="ui-button-text"> </span></button>')
-                            //   .insertAfter('#select_profile')
-                            //   .click(function(){
-                            //     setupShowAll(this);
-                            //   });
                             $('#select_profile').val(current_profile);
                         }
-                        //Add focus to the account box
-                        $('#select_account').focus();
-                        $('#select_account')[0].setSelectionRange(0, $('#select_account').val().length);
                         //Setup the tab index
                         $('#select_account').attr('tabindex', 1);
                         $('#select_profile').attr('tabindex', 2);
@@ -449,6 +479,11 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
                             }
                             updateHistory();
                         });
+                    when(function(){return (document.getElementById('select_account') && document.getElementById('select_account').value.length)}, 
+                    function(){
+                        document.getElementById('select_account').focus()
+                    })
+
                 });
                 //Open the profile selection window
                 Mousetrap.bindGlobal('ctrl+z', function(e, key) {
