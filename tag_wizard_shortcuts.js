@@ -6,13 +6,10 @@ var keepTrying = function(func, callback, sleep) {
     var args = Array.prototype.slice.call(arguments, 2);
     var timer = setInterval(function() {
         var functionResponse = func.apply(null, args);
-        // console.log('functionResponse: '+functionResponse);
         if (functionResponse) {
             clearInterval(timer);
-            // console.log('done trying: '+func);
             callback();
         } else {
-            // console.log('tried: '+func);
         }
     }, sleep);
 }
@@ -51,14 +48,12 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                     when(function() {
                         return ($('#ui-dialog-title-dialog-managetoolbox').length && $('#ui-dialog-title-dialog-managetoolbox:contains("' + datasource[1] + ' (' + datasource[0] + ')")') && $('#dialog-managetoolbox-content').text().length);
                     }, function() {
-                        // console.log('Mapping toolbox has finished loading');
                         //Add click handler to the cancel button to move focus to the last entry
                         $('div[aria-labelledby="ui-dialog-title-dialog-managetoolbox"] span:contains(Cancel)').click(function() {
                             //Put focus in the last entry
                             $('ul[id*=mapcontent] input[type=text]:last').focus();
                         })
                         if ($('#dialog-managetoolbox-content:contains("There is no toolbox available for this vendor")').length) {
-                            // console.log('No toolbox available.  Clicking Cancel');
                             //Just click Cancel
                             $('div[aria-labelledby="ui-dialog-title-dialog-managetoolbox"] span:contains(Cancel)').click();
                         } else {
@@ -231,8 +226,6 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                 $('span:contains(Apply):visible').click();
                 //New Tag
                 $('span:contains(Finish):visible').click();
-                console.log('Mapping data for tag id: ' + $('#manage_editmapping_id').val());
-                console.log(JSON.stringify(inputData));
                 utui.automator.addMapping($('#manage_editmapping_id').val(), inputData);
                 (function(id) {
                     setTimeout(function() {

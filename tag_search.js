@@ -3,19 +3,15 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
     localStorage.setItem("tagSearchQuery", ""); //remove storage on login
 
     function searchTags(string) {
-        // console.log('Running a search for "'+string+'"');
         localStorage.setItem("tagSearchQuery", string);
         var re = new RegExp(string, 'i');
         var data = utui.data.manage;
         var tags = {};
         if (string !== '') {
             Object.keys(data).forEach(function(id) {
-                // console.log(data[id]);
                 var tag = data[id];
                 Object.keys(tag).forEach(function(key) {
-                    // console.log(key,extension[key]);
                     var tagData = tag[key];
-                    // console.log(key);
                     if (key != '_id' && key != 'id' && key != 'labels' && key != 'scope' && key != 'hash' && key != 'sort' && key != 'status' && key != 'new_flag' && key != 'loadrule' && key != 'publish_revisions' && key != 'publishedTargets' && key != 'selectedTargets' && key != 'tag_id' && key != 'map' && key != 'beforeonload') {
                         if (typeof tagData === 'string' && tagData.match(re)) {
                             tags[tag.sort] = 1;
@@ -55,7 +51,6 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                 .appendTo('#tabs-manage .config_button_nofloat');
             var keysPressed = 0;
             $('input#tag-search').bind('keydown', function() {
-                // console.log('keydown');
                 var grabKeyCount = ++keysPressed;
                 setTimeout(function() {
                     if (keysPressed == grabKeyCount) {

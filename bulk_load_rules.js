@@ -44,7 +44,6 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                             }
                             $("#csv_load_rules").val("");
                             utui.automator.addLoadrule(lr);
-                            console.log("Added a load rule.");
                         }
                     }
                     $("#load_rules_container").toggle();

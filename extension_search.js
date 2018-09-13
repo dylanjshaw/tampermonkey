@@ -3,17 +3,14 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
     localStorage.setItem("extensionSearchQuery", "");
 
     function searchExtensions(string) {
-        // console.log('Running a search for "'+string+'"');
         localStorage.setItem("extensionSearchQuery", string);
         var re = new RegExp(string, 'i');
         var data = utui.data.customizations;
         var extensions = {};
         if (string !== '') {
             Object.keys(data).forEach(function(id) {
-                // console.log(data[id]);
                 var extension = data[id];
                 Object.keys(extension).forEach(function(key) {
-                    // console.log(key,extension[key]);
                     var extData = extension[key];
                     if (key != '_id' && key != 'id' && key != 'labels' && key != 'scope' && key != 'scopevars' && key != 'sort' && key != 'status' && key != 'type' && key != '_ignoreError' && !key.match(/_setoption/) && key != 'settings') {
                         if (typeof extData === 'string' && extData.match(re)) {
@@ -41,7 +38,6 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                 .appendTo('#tabs-customizations .config_button_nofloat');
             var keysPressed = 0;
             $('input#extension-search').bind('keydown', function() {
-                // console.log('keydown');
                 var grabKeyCount = ++keysPressed;
                 setTimeout(function() {
                     if (keysPressed == grabKeyCount) {

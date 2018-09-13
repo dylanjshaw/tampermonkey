@@ -19,10 +19,8 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
             try {
                 if (test.apply(null, args)) {
                     clearInterval(timer);
-                    // console.log('done trying: '+test);
                     callback();
                 } else {
-                    // console.log('tried: '+test);
                     incrementAttempts();
                 }
             } catch (e) {
@@ -103,7 +101,6 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
     }
 
     var myiqObserver = new MutationObserver(function(mutations) {
-        console.log('MutationObserver of the My iQ left navigation');
         if (!$('#updateTMFeatures').length) {
             $('<li class="tmui"><a href="#" id="updateTMFeatures">Enable/Disable TM Features</a></li>')
                 .click(function() {

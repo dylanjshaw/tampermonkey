@@ -35,8 +35,6 @@ function checkDOMForTab() {
     return document.querySelectorAll(".ui-tabs-selected").length > 0 ? true : false;
 }
 
-// chrome/mac only (may conflict with other browser shortcuts)
-
 function attachThing() {
     ($(document).unbind('keypress', easySwitch));
     document.addEventListener('keypress', easySwitch, false);

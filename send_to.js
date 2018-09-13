@@ -52,7 +52,6 @@ var when = function(test, run, sleep, maxAttempts) {
     }
 
     function sendToBottom(tab) {
-        // console.log('going to send to bottom');
         var elements = getCheckedElements(tab);
         for (var i = 0; i < elements.length; i++) {
             $(elements[i]).detach().appendTo('#' + tab + ' div[id$="_content"]');
@@ -68,12 +67,10 @@ var when = function(test, run, sleep, maxAttempts) {
     }
 
     function sendToTop(tab) {
-        // console.log('going to send to top');
         var elements = [];
         getCheckedElements(tab).each(function() {
             elements.push(this);
         });
-        debugger
         elements = elements.reverse();
         for (var i = 0; i < elements.length; i++) {
             $(elements[i]).detach().prependTo('#' + tab + ' div[id$="_content"]');

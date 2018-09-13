@@ -44,7 +44,6 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
         when(function() {
             return jQuery('#customizations_' + extensionElementID + '_accordionBody').is(':visible');
         }, function() {
-            // console.log('extension should be opened now');
             //Extensions
             var myContainer = $('#customize_content');
             var scrollTo = $('#customizations_' + extensionElementID);

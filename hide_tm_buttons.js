@@ -21,18 +21,12 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                 $('#globalMessageButton').css('cursor', 'default').css('color', 'rgb(4, 127, 195)').addClass('tmui-color');
                 __getGlobalMessageAllow = 'false';
                 console.log('Tampermonkey Buttons Are Currently Hidden');
-                // if (features.removeAlias.enabled) {
-                //     restoreAlias();
-                // }
             } else {
                 $('.tmui').show();
                 $('.tmui-color').css('color', '#C71585');
                 $('#globalMessageButton').css('cursor', 'pointer').css('color', '#C71585').addClass('tmui-color');
                 __getGlobalMessageAllow = 'true';
                 console.log('Tampermonkey Buttons Are Currently Visible');
-                // if (features.removeAlias.enabled) {
-                //     hideAlias();
-                // }
             }
         });
 

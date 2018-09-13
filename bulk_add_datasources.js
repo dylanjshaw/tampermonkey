@@ -9,7 +9,6 @@ var keepTrying = function(test, callback, sleep, maxAttempts) {
         if (typeof maxAttempts !== 'undefined') {
             if (totalAttempts > maxAttempts) {
                 clearInterval(timer);
-                console.log('Reached maximum number of attempts.  Going to stop checking.')
             }
         }
     }
@@ -17,14 +16,11 @@ var keepTrying = function(test, callback, sleep, maxAttempts) {
         try {
             if (test.apply(null, args)) {
                 clearInterval(timer);
-                // console.log('done trying: '+test);
                 callback();
             } else {
-                // console.log('tried: '+test);
                 incrementAttempts();
             }
         } catch (e) {
-            console.log('Failure in check: ' + e);
             incrementAttempts();
         }
     }, sleep);

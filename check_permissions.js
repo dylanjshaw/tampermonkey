@@ -41,7 +41,6 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                 if (typeof maxAttempts !== 'undefined') {
                     if (totalAttempts > maxAttempts) {
                         clearInterval(timer);
-                        console.log('Reached maximum number of attempts.  Going to stop checking.')
                     }
                 }
             }
@@ -49,14 +48,11 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                 try {
                     if (test.apply(null, args)) {
                         clearInterval(timer);
-                        // console.log('done trying: '+test);
                         callback();
                     } else {
-                        // console.log('tried: '+test);
                         incrementAttempts();
                     }
                 } catch (e) {
-                    console.log('Failure in check: ' + e);
                     incrementAttempts();
                 }
             }, sleep);

@@ -39,7 +39,6 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
     }
     return str;
 }
-    console.log('Quick Switch v2 Loading');
         //Create a style sheet that will hide the original profile buttons and format the auto complete box
         $('<style id="quickSwitchStyleSheet">\
         #profile_account-autocomplete,#lastaccount button[title="Show All Items"],#profile_profileid-autocomplete,#lastprofile button[title="Show All Items"],#lastrevision{\
@@ -96,16 +95,12 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
             var profileMaxLength = 10;
             var recentProfiles = JSON.parse(localStorage.getItem('recent_history'));
             if (recentProfiles) {
-                // console.log('recent profiles:');
-                // console.log(recentProfiles);
                 var nonFavListCounter = 0;
                 for (var i = 1; i < recentProfiles.length; i++) {
                     if (!recentProfiles[i].favorite && !(recentProfiles[i].account === account && recentProfiles[i].profile === profile)) {
                         nonFavList.push(recentProfiles[i]);
                     }
                 }
-                // console.log('Non fav list:');
-                // console.log(nonFavList);
                 if (defaultProfile) {
                     recentProfiles[0].account = account;
                     recentProfiles[0].profile = profile;
@@ -124,7 +119,6 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
                     var accountProfileExists = 0;
                     for (var i = 1; i < recentProfiles.length; i++) {
                         if (recentProfiles[i].account === account && recentProfiles[i].profile === profile) {
-                            // console.log('Account/Profile exists in index: '+i);
                             accountProfileExists = i;
                             if (recentProfiles[i].favorite) {
                                 //This is a favorite profile, return since no sorting is needed
@@ -137,19 +131,15 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
                     if (accountProfileExists) {
                         //Reorder the list based on favorites
                         for (var i = 1; i < recentProfiles.length; i++) {
-                            // console.log('index == '+i+', '+JSON.stringify(recentProfiles[i]));
                             //Don't rewrite the account/profile we are swtiching to
                             if (accountProfileExists !== i) {
                                 if (!recentProfiles[i].favorite) {
-                                    // console.log('This entry is not a favorite.  Going to place next available: '+JSON.stringify(nonFavList[nonFavListCounter]));
                                     updatedProfileList.push(nonFavList[nonFavListCounter]);
                                     nonFavListCounter++;
                                 } else {
-                                    // console.log('This entry is a favorite.  placing: '+JSON.stringify(recentProfiles[i]));
                                     updatedProfileList.push(recentProfiles[i]);
                                 }
                             } else {
-                                // console.log('going to replace where the profile was with the next available one: '+JSON.stringify(nonFavList[nonFavListCounter]));
                                 updatedProfileList.push(nonFavList[nonFavListCounter]);
                                 nonFavListCounter++;
                             }
@@ -172,10 +162,7 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
                                 updatedProfileList.push(recentProfiles[i]);
                             }
                         }
-                        // console.log('nonFavList[nonFavListCounter] == '+JSON.stringify(nonFavList[nonFavListCounter]));
-                        // console.log('updatedProfileList.length == '+updatedProfileList.length);
                         if (typeof nonFavList[nonFavListCounter] !== 'undefined' && updatedProfileList.length < profileMaxLength) {
-                            // console.log('going to add another entry');
                             updatedProfileList.push(nonFavList[nonFavListCounter]);
                         }
                     }
@@ -252,7 +239,6 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
 
         window.getAccountProfiles = function(account) {
             if ($('#profile_account option[value="' + account + '"]').length) {
-                console.log('Going to get profiles for account: ' + account);
                 utui.profile.getProfiles(null, {
                     account: account
                 }, function(data) {
@@ -266,11 +252,8 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
                         });
                         $('#select_profile').val(profiles[0] || '');
                     } else {
-                        console.log('No profiles returned in object');
                     }
                 }, null, 1);
-            } else {
-                console.log(account + ' isn\'t available for your account.  A search for profiles won\'t be done');
             }
         }
         window.updateAccountList = function() {
@@ -385,15 +368,9 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
                 });
                 //Capture number inputs to allow for quick switch
                 Mousetrap.bindGlobal(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], function(e, key) {
-                    // console.log('User typed '+key);
-                    // console.log('Recent History Visible = '+$('#recentprofilesQuickSwitch').is(':visible'));
                     if ($('#recentprofilesQuickSwitch').is(':visible')) {
                         setTimeout(function() {
-                            // console.log('key: '+key);
-                            // console.log('value: '+$('#profile_account-autocomplete').val());
                             if (key == $('#select_account').val()) {
-                                // console.log(key +' == '+ $('#select_account').val());
-                                // console.log($('#recentprofilesQuickSwitch a:contains("'+key+': ")'));
                                 $('#recentprofilesQuickSwitch a:contains("' + key + ': ")').click();
                             }
                         }, 300);
@@ -402,7 +379,6 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
                 //Set default focus in the account field
                 $('#profile_menu_button').click(function() {
                         //Update the text at the top of the history window
-                        // $('.menulistheaderfont').text('Recent History (Sortable)');
                         //Get the current account and profile
                         var current_account = $('#profile_legend_account').text();
                         var current_profile = $('#profile_legend_profile').text();
@@ -487,7 +463,6 @@ arguments)}}(b))};e.init();p.Mousetrap=e;"undefined"!==typeof module&&module.exp
                 });
                 //Open the profile selection window
                 Mousetrap.bindGlobal('ctrl+z', function(e, key) {
-                    console.log('User is requesting profile selection window');
                     $('#profile_menu_button').click();
                 });
             }

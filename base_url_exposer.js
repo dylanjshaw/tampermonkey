@@ -7,7 +7,6 @@ function extract_base_url(templateCode) {
         if (base_url_split && base_url_split.length == 2) {
             var tag_base_url = base_url_split[1].slice(0, -1); //remove extra double quotes in the end of the string
             tag_base_url = "//" + tag_base_url;
-            // console.log("*********base_url = " + tag_base_url)
             return tag_base_url;
         } else {
             return null;
