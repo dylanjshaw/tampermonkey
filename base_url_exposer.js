@@ -16,12 +16,12 @@ function extract_base_url(templateCode) {
     }
 }
 
-String.prototype.trim = function(length) {
-    return this.length > length ? this.substring(0, length) + "..." : this;
+function nuTrim(str,length) {
+    return str.length > length ? str.substring(0, length) + "..." : str;
 }
 
 function expose_base_url(tag_base_url) {
-    tag_base_url = tag_base_url.trim(40)
+    tag_base_url = nuTrim(tag_base_url,40)
     if ($("#base_url_row").length > 0) {
         $("#base_url_row").remove();
     }
