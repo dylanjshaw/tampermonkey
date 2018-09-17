@@ -9,7 +9,7 @@ function insertSelectAllButton(tab_name) {
         parentRef, boxesRef, button;
     var buttonRef = '#select-all-' + tab.join('-');
     if ($(buttonRef).length == 0) { // if there is no select-all button in DOM...create it with ID
-        button = createElementFromHTML('<div class="tab-menu-item select-all-button tmui"><a class="btn"><i class="icon-edit"></i><span>Select All</span></a></div>');
+        button = createElementFromHTML('<div class="tab-menu-item select-all-button tmui" style="float:left;margin-left:10px"><a class="btn"><i class="icon-edit"></i><span>Select All</span></a></div>');
         $(button).attr('id', buttonRef.replace('#', ''));
         switch (buttonRef) {
             case '#select-all-data-sources':
