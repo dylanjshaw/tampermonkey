@@ -13,20 +13,20 @@ function insertSelectAllButton(tab_name) {
         $(button).attr('id', buttonRef.replace('#', ''));
         switch (buttonRef) {
             case '#select-all-data-sources':
-                parentRef = '#defineContainer_headerControls > div > div:last';
+                parentRef = '#defineContainer_headerControls';
                 button = '<div id="select-all-data-sources" class="tab-menu-item select-all-button"><a class="btn"><i class="icon-edit"></i><span>Select All</span></a></div>';
                 boxesRef = '#defineObjectsList > div > input[type="checkbox"]';
                 break;
             case '#select-all-loadrules':
-                parentRef = '#loadrulesContainer_headerControls > div:nth-child(3)';
+                parentRef = '#loadrulesContainer_headerControls';
                 boxesRef = '#loadrules_content > div > h3 > a > div > input';
                 break;
             case '#select-all-tags':
-                parentRef = '#manageContainer_headerControls > div:nth-child(2)';
+                parentRef = '#manageContainer_headerControls';
                 boxesRef = '#manage_content > div > h3 > a > div.container_bulk_select > input';
                 break;
             case '#select-all-extensions':
-                parentRef = '#customizeContainer_headerControls > div:nth-child(2)';
+                parentRef = '#customizeContainer_headerControls';
                 boxesRef = '#customize_content > div > h3 > a > div.container_bulk_select > input';
                 //boxesRef = '.label_select_checkbox.bulk_select_checkbox';
                 break;
