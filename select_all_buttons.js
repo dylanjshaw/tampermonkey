@@ -6,29 +6,33 @@ function createElementFromHTML(htmlString) {
 
 function insertSelectAllButton(tab_name) {
     var tab = tab_name.split(' '),
-        parentRef, boxesRef, button;
+        parentRef, boxesRef, button, before = 0;
     var buttonRef = '#select-all-' + tab.join('-');
-    if ($(buttonRef).length == 0) { // if there is no select-all button in DOM...create it with ID
-        button = createElementFromHTML('<div class="tab-menu-item select-all-button tmui" style="float:left;margin-left:10px"><a class="btn"><i class="icon-edit"></i><span>Select All</span></a></div>');
-        $(button).attr('id', buttonRef.replace('#', ''));
+    if ($(buttonRef).length == 0) {
+        button = createElementFromHTML('<div class="tab-menu-item select-all-button tmui"><a class="btn"><i class="icon-edit"></i><span>Select All</span></a></div>');
         switch (buttonRef) {
             case '#select-all-data-sources':
-                parentRef = '#defineContainer_headerControls';
+                parentRef = '#defineContainer_headerControls > div > div:last';
                 button = '<div id="select-all-data-sources" class="tab-menu-item select-all-button"><a class="btn"><i class="icon-edit"></i><span>Select All</span></a></div>';
                 boxesRef = '#defineObjectsList > div > input[type="checkbox"]';
                 break;
             case '#select-all-loadrules':
                 parentRef = '#loadrulesContainer_headerControls';
                 boxesRef = '#loadrules_content > div > h3 > a > div > input';
+                button.style.float = 'left';
+                button.style.marginLeft = '10px';
                 break;
             case '#select-all-tags':
                 parentRef = '#manageContainer_headerControls';
                 boxesRef = '#manage_content > div > h3 > a > div.container_bulk_select > input';
+                button.style.float = 'left';
+                button.style.marginLeft = '10px';
                 break;
             case '#select-all-extensions':
-                parentRef = '#customizeContainer_headerControls';
+                parentRef = '#customize_filter_menu_button';
                 boxesRef = '#customize_content > div > h3 > a > div.container_bulk_select > input';
-                //boxesRef = '.label_select_checkbox.bulk_select_checkbox';
+                button.style.marginRight = '5px';
+                before = 1;
                 break;
         }
         $(document).one('DOMNodeInserted', '.select-all-button', function(e) {
@@ -40,7 +44,7 @@ function insertSelectAllButton(tab_name) {
                 }
             });
         });
-        $(parentRef).prepend(button);
+        (before) ? $(parentRef).before(button) : $(parentRef).prepend(button);
     }
 }
 
