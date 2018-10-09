@@ -326,7 +326,8 @@ utui.util.pubsub.subscribe(utui.constants.profile.LOADED, function() {
                     tws.addEditTemplatesToManageScreen(e.container,tag_id)
                 }
 
-                //Add tag template change log link on mamage screen
+                //Add tag template change log link on manage screen
+                $('.tagTemplateChangeLogManage').remove();
                 if (!$(e.container).find('.tagTemplateChangeLogManage').length) {
                     tws.addTagTemplateChangeLogToManageScreen(tag_id)
                 }
